@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+/* Application-wide Styles */
+html {
+  font-size: 14px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-width: 320px;
+  background: #fff;
+  line-height: 1.5em;
+  height: 100%;
+  width: 100%;
+}
+h1 {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+h2, h3 {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-weight: lighter;
+}
+h1,h2,h3,h4,h5,h6 {margin-bottom: 0}
+
+/* everywhere else */
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #484848;
+  box-sizing: border-box;
+}
+
+/* button styles */
+.btn {
+  border: 0;
+  border-radius: 0;
+}
+.btn:focus, .btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.btn-primary {
+  background-color: #2185d0;
+  box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: #1678C2;
+  -webkit-transition: .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+.btn-icon {
+  position: relative;
+  padding-left: 4em;
+  padding-right: 2em;
+}

@@ -1,0 +1,22 @@
+.header-container {
+  padding: 15px 30px 15px 88px;
+  background-color: white;
+  z-index: 98;
+}
+.sticky-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 0 2px 8px #f0f1f2;
+  -webkit-transition: top .8s!important;
+  transition: top .8s!important;
+  width: 100%;
+}
+
+.content-container {
+  padding: 0 20px 0 80px;
+  background-color: white;
+}
+.content-when-sticky-header {
+  padding-top: 80px;
+}
