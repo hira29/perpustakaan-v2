@@ -1,0 +1,184 @@
+<div id="navbar" class="header-container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
+      <h2>Daftar Buku</h2>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 right-navbar">
+      <button class="btn btn-primary btn-icon btn-new-menu" (click)="openModal(template)">
+        <i class="fas fa-plus icon"></i>
+        Tambahkan Buku
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3 pb-0" style="">
+  <div class="row align-self-center" style="margin-top: 20px; z-index: 98;">
+    <div class="col-lg-4 col-md-4 col-sm-1 nopadding"></div>
+    <div class="col-lg-4 col-md-4 col-sm-1 nopadding"></div>
+    <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10">
+      <div class="ui search">
+        <input class="prompt" style="width: 100%" type="text" placeholder="Mencari buku..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
+        <div class="results"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row align-self-center">
+  </div>
+</div>
+
+<table class="ui celled padded table">
+  <thead>
+  <tr><th class="single line"></th>
+    <th>Judul</th>
+    <th>Penulis</th>
+    <th>Penerbit</th>
+    <th>Eksemplar</th>
+    <th>Kategori</th>
+    <th>Letak Buku</th>
+    <th>Stok</th>
+    <th>Edit</th>
+  </tr></thead>
+  <tbody>
+<!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+  <tr *ngFor="let item of pageOfItems">
+    <td><img src="{{item.gambar}}" style="height: 100px"></td>
+    <td>{{item.judul}}</td>
+    <td>{{item.penulis}}</td>
+    <td>{{item.penerbit}}</td>
+    <td>{{item.jumlah_eksemplar}}</td>
+    <td>{{item.kategori}}</td>
+    <td>{{item.letak_buku}}</td>
+    <td>{{item.stok}}</td>
+    <td>
+      <div style="display: block">
+        <a (click)="onView(item.buku_id, update)"><i class="edit outline icon"></i></a>
+        <a></a>
+        <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr><th colspan="9">
+      <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
+        [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
+  </th></tr>
+  </tfoot>
+</table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Tambahkan Buku</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="ui form" #bookForm="ngForm">
+
+      <div class="required field" [class.error]="judul.invalid && judul.touched">
+        <label>Judul</label>
+        <input required #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="inputBook.judul">
+      </div>
+      <div class="two fields">
+        <div class="required field" [class.error]="penulis.invalid && penulis.touched">
+          <label>Penulis</label>
+          <input required #penulis="ngModel" type="text" name="penulis" placeholder="Penulis" [(ngModel)]="inputBook.penulis">
+        </div>
+        <div class="required field" [class.error]="penerbit.invalid && penerbit.touched">
+          <label>Penerbit</label>
+          <input required #penerbit="ngModel" type="text" name="Penerbit" placeholder="Penerbit" [(ngModel)]="inputBook.penerbit">
+        </div>
+      </div>
+      <div class="fields">
+        <div class="required eight wide field" [class.error]="kategori.invalid && kategori.touched">
+          <label>Kategori</label>
+          <input required #kategori="ngModel" type="text" name="kategori" placeholder="Kategori" [(ngModel)]="inputBook.kategori">
+        </div>
+        <div class="required four wide field" [class.error]="eksemplar.invalid && eksemplar.touched">
+          <label>Eksemplar</label>
+          <input required pattern="[0-9]*" #eksemplar="ngModel" type="text" name="jumlah_eksemplar" placeholder="Eksemplar" [(ngModel)]="inputBook.jumlah_eksemplar">
+        </div>
+        <div class="required four wide field" [class.error]="stok.invalid && stok.touched">
+          <label>Stok</label>
+          <input required pattern="[0-9]*" #stok="ngModel" type="text" name="stok" placeholder="Stok" [(ngModel)]="inputBook.stok">
+        </div>
+      </div>
+      <div class="required field" [class.error]="letak.invalid && letak.touched">
+        <label>Letak Buku</label>
+        <input required #letak="ngModel" type="text" name="letak_buku" placeholder="Letak Buku" [(ngModel)]="inputBook.letak_buku">
+      </div>
+
+      <div class="required field" [class.error]="gambar.invalid && gambar.touched">
+        <label>Link Gambar</label>
+        <input required #gambar="ngModel" type="text" name="gambar" placeholder="Link Gambar" [(ngModel)]="inputBook.gambar">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="ui button" type="submit" (click)="onSubmit(inputBook)">Submit</button>
+  </div>
+</ng-template>
+
+<ng-template #update>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Update Buku</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="ui form" #bookForm="ngForm">
+
+      <div class="required field" [class.error]="judul.invalid && judul.touched">
+        <label>Judul</label>
+        <input required  #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="updateBook.judul">
+      </div>
+      <div class="two fields">
+        <div class="required field" [class.error]="penulis.invalid && penulis.touched">
+          <label>Penulis</label>
+          <input required #penulis="ngModel" type="text" name="penulis" placeholder="Penulis" [(ngModel)]="updateBook.penulis">
+        </div>
+        <div class="required field" [class.error]="penerbit.invalid && penerbit.touched">
+          <label>Penerbit</label>
+          <input required #penerbit="ngModel" type="text" name="Penerbit" placeholder="Penerbit" [(ngModel)]="updateBook.penerbit">
+        </div>
+      </div>
+      <div class="fields">
+        <div class="required eight wide field" [class.error]="kategori.invalid && kategori.touched">
+          <label>Kategori</label>
+          <input required #kategori="ngModel" type="text" name="kategori" placeholder="Kategori" [(ngModel)]="updateBook.kategori">
+        </div>
+        <div class="required four wide field" [class.error]="eksemplar.invalid && eksemplar.touched">
+          <label>Eksemplar</label>
+          <input required pattern="[0-9]*" #eksemplar="ngModel" type="text" name="jumlah_eksemplar" placeholder="Eksemplar" [(ngModel)]="updateBook.jumlah_eksemplar">
+        </div>
+        <div class="required four wide field" [class.error]="stok.invalid && stok.touched">
+          <label>Stok</label>
+          <input required pattern="[0-9]*" #stok="ngModel" type="number" name="stok" placeholder="Stok" [(ngModel)]="updateBook.stok">
+        </div>
+      </div>
+      <div class="required field" [class.error]="letak.invalid && letak.touched">
+        <label>Letak Buku</label>
+        <input required #letak="ngModel" type="text" name="letak_buku" placeholder="Letak Buku" [(ngModel)]="updateBook.letak_buku">
+      </div>
+
+      <div class="required field" [class.error]="gambar.invalid && gambar.touched">
+        <label>Link Gambar</label>
+        <input required #gambar="ngModel" type="text" name="gambar" placeholder="Link Gambar" [(ngModel)]="updateBook.gambar">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="ui button" type="submit" (click)="onUpdate(updateBook)">Update</button>
+  </div>
+</ng-template>
+
+<ng-template #delete>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="onDelete(deleteID)" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="onNotDelete()" >No</button>
+  </div>
+</ng-template>

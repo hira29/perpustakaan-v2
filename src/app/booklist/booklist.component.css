@@ -1,0 +1,83 @@
+[class*='col-'] {
+  padding: 10px;
+}
+div.left-navbar {
+  padding: 0;
+}
+div.left-navbar h2 {
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 2rem;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0;
+}
+div.right-navbar {
+  padding: 0;
+  text-align: right;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+button .icon {
+  position: absolute;
+  height: 100%;
+  border-radius: 0;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+  text-align: center;
+  margin: 0;
+  width: 2.57142857em;
+  background-color: rgba(0,0,0,.05);
+  box-shadow: -1px 0 0 0 transparent inset;
+  top: 0;
+  left: 0;
+  line-height: 2.3;
+  color: white;
+}
+
+@media only screen and (max-width: 640px) {
+  div.left-navbar h2 {
+    transition: all .5s ease-in-out;
+    opacity: 0;
+    display: none;
+  }
+}
+
+.header-container {
+  padding: 15px 20px 15px 10px;
+  background-color: white;
+  z-index: 98;
+  box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+}
+.sticky-header {
+  position: fixed;
+  top: 0;
+  left: 10px;
+  box-shadow: 0 2px 8px #f0f1f2;
+  -webkit-transition: top .8s!important;
+  transition: top .8s!important;
+  width: 100%;
+  padding-right: 50px;
+  padding-left: 80px;
+}
+
+.content-container {
+  padding: 0 20px 0 80px;
+  background-color: white;
+}
+.content-when-sticky-header {
+  padding-top: 80px;
+}
+
+.my-pagination /deep/ .ngx-pagination .current {
+}
