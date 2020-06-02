@@ -15,13 +15,20 @@ import { FormsModule} from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 // import {NgxPaginationModule} from 'ngx-pagination';
 import { PaginationModule} from 'ngx-bootstrap/pagination';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { LoginComponent } from './login/login.component';
+
+import { AuthGuard } from './auth.guard';
+import { LogoutComponent } from './login/logout/logout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     SidebarComponent,
-    BooklistComponent
+    BooklistComponent,
+    LoginComponent,
+    LogoutComponent
   ],
     imports: [
         BrowserModule,
@@ -32,9 +39,10 @@ import { PaginationModule} from 'ngx-bootstrap/pagination';
         FormsModule,
         ToastrModule.forRoot(),
         // NgxPaginationModule
-        PaginationModule.forRoot()
+        PaginationModule.forRoot(),
+        TooltipModule.forRoot()
     ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

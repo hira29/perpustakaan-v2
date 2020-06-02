@@ -3,11 +3,17 @@ import {RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {BooklistComponent} from './booklist/booklist.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './auth.guard';
+import {LogoutComponent} from './login/logout/logout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'books', component: BooklistComponent}
+  { path: 'login', component: LoginComponent},
+  { path: 'logout', component: LogoutComponent},
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'books', component: BooklistComponent, canActivate: [AuthGuard]},
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

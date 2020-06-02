@@ -1,0 +1,37 @@
+<!-- LOGIN DEFAULT -->
+<div class="ui container" style="padding-top: 28vh;">
+  <div class="ui middle aligned center aligned grid">
+    <div class="sixteen wide mobile five wide computer column">
+      <h2 class="ui image header" style="font-size: 36px">
+        <div class="d-flex content">
+          <img style="height: 40px; margin: 10px" src="../../../../../assets/img/logo/logo.svg"
+               alt="logo">
+          <p class="ml-2">E-LIBRARY</p>
+        </div>
+      </h2>
+      <form class="ui large form" (keyup)="keyDownFunction($event)" style="box-shadow: rgba(0,0,0,0.5)">
+        <div class="ui stacked">
+          <div class="field" style="margin-bottom: -1px">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="user_name" id="u_name" class="no-focus" autocomplete="off"
+                     placeholder="Username" #u_name (change)="getUname(u_name.value)"
+                     style="border-radius: .28571429rem .28571429rem 0 0" />
+            </div>
+          </div>
+          <div class="field" style="margin: 0">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" id="u_pass" class="no-focus" autocomplete="off"
+                     placeholder="Password" #u_pass (change)="getUpass(u_pass.value)"
+                     style="border-radius: 0" />
+            </div>
+          </div>
+          <div class="ui fluid large button blue"
+               style="border-radius: 0 0 .28571429rem .28571429rem">Login</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- LOGIN DEFAULT END -->

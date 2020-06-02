@@ -1,29 +1,30 @@
-<div class="sidebar">
+<div class="sidebar" *ngIf="getLogindata()">
   <img style="height: 40px; margin: 10px" src="../../../../../assets/img/logo/logo.svg"
        alt="logo">
-  <a routerLink="/dashboard" routerLinkActive="active" placement="right" ngbTooltip="Home" tooltipClass="custom-tooltip"
+  <a routerLink="/dashboard" routerLinkActive="active" placement="right" tooltip="Home" tooltipClass="custom-tooltip"
      container="body">
     <i class="fas fa-home"></i>
   </a>
-  <a routerLink="/books" routerLinkActive="active" placement="right" ngbTooltip="Buku" tooltipClass="custom-tooltip"
+  <a routerLink="/books" routerLinkActive="active" placement="right" tooltip="Buku" tooltipClass="custom-tooltip"
      container="body">
     <i class="fas fa-table"></i>
   </a>
-  <a routerLink="/chart" routerLinkActive="active" placement="right" ngbTooltip="Chart" tooltipClass="custom-tooltip"
+  <a routerLink="/chart" routerLinkActive="active" placement="right" tooltip="Peminjaman" tooltipClass="custom-tooltip"
      container="body">
     <i class="fas fa-chart-line"></i>
   </a>
-  <a routerLink="#" routerLinkActive="active" placement="right" ngbTooltip="More" tooltipClass="custom-tooltip"
+  <a routerLink="#" routerLinkActive="active" placement="right" tooltip="More" tooltipClass="custom-tooltip"
      container="body">
     <i class="fas fa-ellipsis-h"></i>
   </a>
   <div class="bottom-menu">
-    <a href="#" routerLinkActive="active" placement="right" ngbTooltip="Help" tooltipClass="custom-tooltip"
+    <a href="#" routerLinkActive="active" placement="right" tooltip="Help" tooltipClass="custom-tooltip"
        container="body">
       <i class="fas fa-question-circle"></i>
     </a>
-    <a href="#">
-      <i class="fas fa-user"></i>
+    <a href="/logout" placement="right" tooltip="Keluar" tooltipClass="custom-tooltip"
+       container="body" (click)="onLogout()">
+      <i class="power off icon"></i>
     </a>
   </div>
 </div>
