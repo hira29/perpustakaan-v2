@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { _app_config } from '@app-config/app.config';
 
 import {dataDecryption} from '../../shared/security.helper';
+import {NotificationService} from '../../notification.service';
 
 @Component({
   selector: 'app-logout',
@@ -16,6 +17,7 @@ export class LogoutComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private toastr: NotificationService,
   ) { }
 
   ngOnInit() {
@@ -31,9 +33,6 @@ export class LogoutComponent implements OnInit {
     }
     return result;
   }
-
-
-
   logout() {
     const account = this.getAccountLoggedIn();
     if (account !== undefined) {
@@ -42,5 +41,6 @@ export class LogoutComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+    this.toastr.showSuccess('Anda berhasil Keluar', 'Berhasil');
   }
 }

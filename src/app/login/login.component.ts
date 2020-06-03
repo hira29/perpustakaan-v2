@@ -9,7 +9,7 @@ import { _app_config } from '@app-config/app.config';
 
 /* Helper */
 import { dataEncryption } from 'src/app/shared/security.helper';
-
+import { NotificationService} from '../notification.service';
 
 
 @Component({
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private toastr: NotificationService,
   ) { }
 
   ngOnInit() {
@@ -42,9 +43,12 @@ export class LoginComponent implements OnInit {
         const account = x.data;
 
         if (x.status === true) {
+          this.toastr.showSuccess(x.message, 'Berhasil');
           const enc = dataEncryption(account);
           localStorage.setItem(_app_config.localstorage_prefix + 'user', enc);
           this.router.navigate(['/dashboard']);
+        } else {
+          this.toastr.showError(x.message, 'Gagal');
         }
     });
   }

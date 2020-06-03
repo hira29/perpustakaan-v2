@@ -1,7 +1,6 @@
 export class BookModel {
   constructor(
     // tslint:disable-next-line:variable-name
-    public buku_id: string,
     public judul: string,
     public penulis: string,
     public penerbit: string,

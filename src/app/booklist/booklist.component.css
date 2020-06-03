@@ -53,6 +53,31 @@ button .icon {
   }
 }
 
+@media only screen and (min-width: 641px) {
+  .category {
+    width: 100%
+  }
+}
+
+@media only screen and (min-width: 576px){
+  .category {
+    width: 80%
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .category {
+    width: 60%
+  }
+}
+
+
+@media only screen and (min-width: 1200px) {
+  .category {
+    width: 40%
+  }
+}
+
 .header-container {
   padding: 15px 20px 15px 10px;
   background-color: white;

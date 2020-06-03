@@ -12,11 +12,26 @@
   </div>
 </div>
 
-<div class="container mt-3 pb-0" style="">
+<div class="mt-3 pb-0" style="width: 100%">
   <div class="row align-self-center" style="margin-top: 20px; z-index: 98;">
-    <div class="col-lg-4 col-md-4 col-sm-1 nopadding"></div>
-    <div class="col-lg-4 col-md-4 col-sm-1 nopadding"></div>
-    <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+      <div class="category" style="display: flex">
+        <ng-select [items]="Category"
+                   bindLabel="kategori"
+                   placeholder="Kategori..."
+                   autofocus
+                   bindValue="kategori"
+                   [(ngModel)]="selectedCategory"
+                   (change)="onCategoryChange($event)"
+        style="width: 120%">
+        </ng-select>
+        <div class="ui icon button" style="margin-left: 5px" (click)="openModal(CategoryTemplate)">
+          <i class="plus icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
       <div class="ui search">
         <input class="prompt" style="width: 100%" type="text" placeholder="Mencari buku..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
         <div class="results"></div>
@@ -81,6 +96,19 @@
         <label>Judul</label>
         <input required #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="inputBook.judul">
       </div>
+      <div class="required field">
+        <label>Kategori</label>
+        <ng-select [searchable]="false"
+                   [items]="Category"
+                   bindLabel="kategori"
+                   placeholder="Kategori"
+                   autofocus
+                   bindValue="kategori"
+                   [(ngModel)]="getKategori"
+                   name="input_kategori"
+                   (change)="onChange($event)">
+        </ng-select>
+      </div>
       <div class="two fields">
         <div class="required field" [class.error]="penulis.invalid && penulis.touched">
           <label>Penulis</label>
@@ -92,9 +120,9 @@
         </div>
       </div>
       <div class="fields">
-        <div class="required eight wide field" [class.error]="kategori.invalid && kategori.touched">
-          <label>Kategori</label>
-          <input required #kategori="ngModel" type="text" name="kategori" placeholder="Kategori" [(ngModel)]="inputBook.kategori">
+        <div class="required eight wide field" >
+<!--          <label>Kategori</label>-->
+<!--          <input required #kategori="ngModel" type="text" name="kategori" placeholder="Kategori" [(ngModel)]="inputBook.kategori">-->
         </div>
         <div class="required four wide field" [class.error]="eksemplar.invalid && eksemplar.touched">
           <label>Eksemplar</label>
@@ -135,6 +163,19 @@
         <label>Judul</label>
         <input required  #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="updateBook.judul">
       </div>
+      <div class="required field">
+        <label>Kategori</label>
+        <ng-select [searchable]="false"
+                   [items]="Category"
+                   bindLabel="kategori"
+                   placeholder="Kategori"
+                   autofocus
+                   bindValue="kategori"
+                   [(ngModel)]="getKategori"
+                   name="input_kategori"
+                   (change)="onChange($event)">
+        </ng-select>
+      </div>
       <div class="two fields">
         <div class="required field" [class.error]="penulis.invalid && penulis.touched">
           <label>Penulis</label>
@@ -146,9 +187,7 @@
         </div>
       </div>
       <div class="fields">
-        <div class="required eight wide field" [class.error]="kategori.invalid && kategori.touched">
-          <label>Kategori</label>
-          <input required #kategori="ngModel" type="text" name="kategori" placeholder="Kategori" [(ngModel)]="updateBook.kategori">
+        <div class="required eight wide field">
         </div>
         <div class="required four wide field" [class.error]="eksemplar.invalid && eksemplar.touched">
           <label>Eksemplar</label>
@@ -180,5 +219,36 @@
     <p>Do you want to confirm?</p>
     <button type="button" class="btn btn-default" (click)="onDelete(deleteID)" >Yes</button>
     <button type="button" class="btn btn-primary" (click)="onNotDelete()" >No</button>
+  </div>
+</ng-template>
+
+<ng-template #CategoryTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Kategori</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="ui form" #CategoryForm="ngForm">
+
+      <div *ngFor="let type of Category" class="ui left labeled button" tabindex="0" style="margin-top: 2px; margin-right: 2px">
+        <a class="ui basic label">
+          {{type.kategori}}
+        </a>
+        <div class="ui icon button" (click)="onDeleteCategory(type.kategori)">
+          <i class="trash icon"></i>
+        </div>
+      </div>
+
+
+      <div class="required field" [class.error]="kategori.invalid && kategori.touched" style="margin-top: 1rem">
+        <label>Kategori</label>
+        <input required #kategori="ngModel" type="text" name="judul" placeholder="Kategori" [(ngModel)]="inputCategory">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="ui button" type="submit" (click)="onSubmitCategory(inputCategory)">Submit</button>
   </div>
 </ng-template>

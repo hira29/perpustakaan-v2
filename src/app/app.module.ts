@@ -10,7 +10,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule} from '@angular/forms';
 
 import { ToastrModule } from 'ngx-toastr';
 // import {NgxPaginationModule} from 'ngx-pagination';
@@ -20,6 +19,11 @@ import { LoginComponent } from './login/login.component';
 
 import { AuthGuard } from './auth.guard';
 import { LogoutComponent } from './login/logout/logout.component';
+
+/* Directive */
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -37,10 +41,13 @@ import { LogoutComponent } from './login/logout/logout.component';
         ModalModule.forRoot(),
         HttpClientModule,
         FormsModule,
+        ReactiveFormsModule,
+
         ToastrModule.forRoot(),
         // NgxPaginationModule
         PaginationModule.forRoot(),
-        TooltipModule.forRoot()
+        TooltipModule.forRoot(),
+        NgSelectModule
     ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

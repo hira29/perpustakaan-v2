@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel} from './bookmodel';
 import { NotificationService} from '../notification.service';
+import {NgOption} from '@ng-select/ng-select';
 
 
 @Component({
@@ -15,13 +16,18 @@ import { NotificationService} from '../notification.service';
 export class BooklistComponent implements OnInit {
   public title = 'Book List';
 
+  inputCategory: string;
+  selectedCategory: string;
+  getKategori: string;
+  data: any;
   deleteID: string;
   config: any;
   search: string;
   pager = {};
   pageOfItems = [];
-  inputBook = new BookModel('', '', '', '', '', '', '', 1, '');
-  updateBook = new BookModel('', '', '', '', '', '', '', 0, '');
+  Category: NgOption[];
+  inputBook = new BookModel('', '', '', '', '', '', 1, '');
+  updateBook = new BookModel('', '', '', '', '', '', 0, '');
 
   modalRef: BsModalRef;
   constructor(
@@ -33,12 +39,38 @@ export class BooklistComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.config = {
+      itemsPerPage: 10,
+      currentPage: 1,
+      totalItems: 0
+    };
+    this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
+    this.http.get('http://localhost:6996/perpustakaan/api/v1/kategori/list')
+      .subscribe(x => {
+        this.data = x;
+        this.Category = this.data.data;
+      });
+  }
+  private onCategoryChange($event) {
     this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
   }
+  private onChange($event) {
+    this.inputBook.kategori = this.getKategori;
+    this.updateBook.kategori = this.getKategori;
+  }
   private onSearch(searchInput) {
-    this.route.queryParams.subscribe(x => this.loadPage(x.page || 1), searchInput);
+    this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
   }
   private openModal(template: TemplateRef<any>) {
+    this.inputCategory = '';
+    this.getKategori = null;
+    this.inputBook.judul = '';
+    this.inputBook.kategori = '';
+    this.inputBook.penerbit = '';
+    this.inputBook.letak_buku = '';
+    this.inputBook.jumlah_eksemplar = '';
+    this.inputBook.penulis = '';
+    this.inputBook.gambar = '';
     this.modalRef = this.modalService.show(template);
   }
   private onPageChange(event: any) {
@@ -48,6 +80,7 @@ export class BooklistComponent implements OnInit {
     this.http.get<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/view/` + id)
       .subscribe(x => {
         this.updateBook = x.data;
+        this.getKategori = this.updateBook.kategori;
       });
     this.modalRef = this.modalService.show(template);
   }
@@ -75,8 +108,11 @@ export class BooklistComponent implements OnInit {
     this.modalRef.hide();
   }
   private loadPage(num) {
+    if (this.selectedCategory === '') {
+      this.selectedCategory = 'All';
+    }
     this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/list`,
-      {search: this.search, page: +num, size : 10}).subscribe(x => {
+      {category: this.selectedCategory, search: this.search, page: +num, size : 10}).subscribe(x => {
       this.pager = x.data;
       this.pageOfItems = x.data.records;
       this.config = {
@@ -87,8 +123,17 @@ export class BooklistComponent implements OnInit {
     });
   }
   private onSubmit(data: BookModel) {
-    this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/create`,
-      data).subscribe(x => {
+    if (this.inputBook.judul === '' &&
+        this.inputBook.kategori === '' &&
+        this.inputBook.penerbit === '' &&
+        this.inputBook.letak_buku === '' &&
+        this.inputBook.jumlah_eksemplar === '' &&
+        this.inputBook.penulis === '' &&
+        this.inputBook.gambar === '') {
+      this.toastr.showError('Data yang dibutuhkan Kosong!', 'Gagal');
+    } else {
+      this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/create`,
+        data).subscribe(x => {
         console.log(x);
         this.modalRef.hide();
         if (x.status === true) {
@@ -98,8 +143,9 @@ export class BooklistComponent implements OnInit {
         }
         setTimeout(() => {
           this.ngOnInit();
-          }, 1000);
-    });
+        }, 1000);
+      });
+    }
   }
   private onUpdate(data: BookModel) {
     this.http.put<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/update`,
@@ -116,5 +162,35 @@ export class BooklistComponent implements OnInit {
       }, 1000);
     });
   }
-
+  private onSubmitCategory(input) {
+    this.http.get<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/kategori/tambah/` + input)
+      .subscribe(x => {
+      console.log(x);
+      this.modalRef.hide();
+      if (x.status === true) {
+        this.toastr.showSuccess(x.message, 'Berhasil');
+      } else {
+        this.toastr.showError(x.message, 'Gagal');
+      }
+      setTimeout(() => {
+        this.ngOnInit();
+      }, 1000);
+    });
+  }
+  private onDeleteCategory(CategoryName) {
+    this.http.delete<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/kategori/hapus/` + CategoryName)
+      .subscribe(x => {
+        console.log(x);
+        if (x.status === true) {
+          this.toastr.showSuccess(x.message, 'Berhasil');
+        } else {
+          this.toastr.showError(x.message, 'Gagal');
+        }
+        this.http.get('http://localhost:6996/perpustakaan/api/v1/kategori/list')
+          .subscribe(dataset => {
+            this.data = dataset;
+            this.Category = this.data.data;
+          });
+      });
+  }
 }
