@@ -26,7 +26,7 @@
         style="width: 120%">
         </ng-select>
         <div class="ui icon button" style="margin-left: 5px" (click)="openModal(CategoryTemplate)">
-          <i class="plus icon"></i>
+          <i class="edit outline icon"></i>
         </div>
       </div>
     </div>
@@ -172,7 +172,7 @@
                    autofocus
                    bindValue="kategori"
                    [(ngModel)]="getKategori"
-                   name="input_kategori"
+                   name="submit_kategori"
                    (change)="onChange($event)">
         </ng-select>
       </div>
