@@ -6,6 +6,9 @@ import {BooklistComponent} from './booklist/booklist.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth.guard';
 import {LogoutComponent} from './login/logout/logout.component';
+import {LoanpageComponent} from './loanpage/loanpage.component';
+import {CurrentloanComponent} from './loanpage/currentloan/currentloan.component';
+import {HistoryloanComponent} from './loanpage/historyloan/historyloan.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -13,6 +16,9 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'books', component: BooklistComponent, canActivate: [AuthGuard]},
+  { path: 'loans', component: LoanpageComponent, canActivate: [AuthGuard]},
+  { path: 'loans/current/:id', component: CurrentloanComponent, canActivate: [AuthGuard]},
+  { path: 'loans/history/:id', component: HistoryloanComponent, canActivate: [AuthGuard]},
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]}
 ];
 

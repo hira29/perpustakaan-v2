@@ -23,6 +23,9 @@ import { LogoutComponent } from './login/logout/logout.component';
 /* Directive */
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoanpageComponent } from './loanpage/loanpage.component';
+import { CurrentloanComponent } from './loanpage/currentloan/currentloan.component';
+import { HistoryloanComponent } from './loanpage/historyloan/historyloan.component';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SidebarComponent,
     BooklistComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    LoanpageComponent,
+    CurrentloanComponent,
+    HistoryloanComponent
   ],
     imports: [
         BrowserModule,

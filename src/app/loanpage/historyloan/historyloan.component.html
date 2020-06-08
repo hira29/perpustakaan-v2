@@ -1,0 +1,137 @@
+<div id="navbar" class="header-container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
+      <h2>Riwayat</h2>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 right-navbar">
+      <button class="btn btn-primary btn-icon btn-new-menu" routerLink="/loans">
+        <i class="arrow alternate circle left outline icon"></i>
+        Kembali
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading;else loads" class="ui segment" style="padding: 200px 0 0 0 ">
+  <div class="ui active inverted dimmer">
+    <div class="ui large text loader">Loading</div>
+  </div>
+</div>
+
+<ng-template #loads>
+
+  <div class="mt-3 pb-0" style="width: 100%">
+    <div class="row align-self-center" style="margin-top: 10px; z-index: 98;">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <table class="ui definition table">
+          <tbody>
+          <tr>
+            <td class="two wide column">ID</td>
+            <td>{{dataMhs.mhs_id}}</td>
+          </tr>
+          <tr>
+            <td>Nama</td>
+            <td>{{dataMhs.nama}}</td>
+          </tr>
+          <tr>
+            <td>Jurusan</td>
+            <td>{{dataMhs.tahun_masuk}} / {{dataMhs.jurusan}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <div class="ui search" style="width: 100%">
+          <input class="prompt marginsearch" style="width: 100%" type="text" placeholder="Mencari ID Buku / Peminjaman..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
+          <div class="results"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row align-self-center" style="margin-top: 10px">
+
+    </div>
+  </div>
+
+  <table class="ui celled padded table">
+    <thead>
+    <tr><th class="single line">ID Peminjaman</th>
+      <th>ID Buku</th>
+      <th>Judul Buku</th>
+      <th>Penerbit</th>
+      <th>Penulis</th>
+      <th>Tanggal Peminjaman</th>
+      <th>Tanggal Pengembalian</th>
+      <th>Tanggal Kembali</th>
+      <th>Info</th>
+    </tr></thead>
+    <tbody>
+    <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+    <tr *ngFor="let item of pageOfItems">
+      <td>{{item.data_peminjaman.id_peminjaman}}</td>
+      <td>{{item.detail_buku.buku_id}}</td>
+      <td>{{item.detail_buku.judul}}</td>
+      <td>{{item.detail_buku.penerbit}}</td>
+      <td>{{item.detail_buku.penulis}}</td>
+      <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+      <td>{{item.data_peminjaman.tanggal_pengembalian | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+      <td>{{item.data_peminjaman.tanggal_kembali | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+      <td>
+        <div class="ui icon button" (click)="openModal(Info, item)">
+          <i class="info circle icon"></i>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr><th colspan="9">
+      <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
+                  [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
+    </th></tr>
+    </tfoot>
+  </table>
+</ng-template>
+
+<ng-template #Info>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Pengembalian</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img src="{{infoReturn.detail_buku.gambar}}" style="height: 200px; display: block;
+            margin-left: auto;
+            margin-right: auto;">
+    <table class="ui definition table">
+      <tbody>
+      <tr>
+        <td class="two wide column">ID Buku</td>
+        <td>{{infoReturn.detail_buku.buku_id}}</td>
+      </tr>
+      <tr>
+        <td>Judul</td>
+        <td>{{infoReturn.detail_buku.judul}}</td>
+      </tr>
+      <tr>
+        <td>Penulis</td>
+        <td>{{infoReturn.detail_buku.penulis}}</td>
+      </tr>
+      <tr>
+        <td>Penerbit</td>
+        <td>{{infoReturn.detail_buku.penerbit}}</td>
+      </tr>
+      <tr>
+        <td>Kategori</td>
+        <td>{{infoReturn.detail_buku.kategori}}</td>
+      </tr>
+      <tr>
+        <td>Info Keterlambatan</td>
+        <td *ngIf="lateTime;else notLate" style="color:red">{{infoTime}}</td>
+        <ng-template #notLate>
+          <td>{{infoTime}}</td>
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>

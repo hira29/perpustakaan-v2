@@ -28,6 +28,7 @@ export class BooklistComponent implements OnInit {
   Category: NgOption[];
   inputBook = new BookModel('', '', '', '', '', '', 1, '');
   updateBook = new BookModel('', '', '', '', '', '', 0, '');
+  loading = true;
 
   modalRef: BsModalRef;
   constructor(
@@ -39,6 +40,7 @@ export class BooklistComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.config = {
       itemsPerPage: 10,
       currentPage: 1,
@@ -50,6 +52,9 @@ export class BooklistComponent implements OnInit {
         this.data = x;
         this.Category = this.data.data;
       });
+    setTimeout(() => {
+      this.loading = false;
+    }, 200);
   }
   private onCategoryChange($event) {
     this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
@@ -97,9 +102,7 @@ export class BooklistComponent implements OnInit {
         } else {
           this.toastr.showError(x.message, 'Gagal');
         }
-        setTimeout(() => {
-          this.ngOnInit();
-        }, 1000);
+        this.ngOnInit();
         this.deleteID = '';
       });
   }
@@ -134,16 +137,13 @@ export class BooklistComponent implements OnInit {
     } else {
       this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/create`,
         data).subscribe(x => {
-        console.log(x);
         this.modalRef.hide();
         if (x.status === true) {
           this.toastr.showSuccess(x.message, 'Berhasil');
         } else {
           this.toastr.showError(x.message, 'Gagal');
         }
-        setTimeout(() => {
-          this.ngOnInit();
-        }, 1000);
+        this.ngOnInit();
       });
     }
   }
@@ -172,9 +172,7 @@ export class BooklistComponent implements OnInit {
       } else {
         this.toastr.showError(x.message, 'Gagal');
       }
-      setTimeout(() => {
-        this.ngOnInit();
-      }, 1000);
+      this.ngOnInit();
     });
   }
   private onDeleteCategory(CategoryName) {

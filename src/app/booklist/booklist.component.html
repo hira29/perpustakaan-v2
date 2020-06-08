@@ -12,75 +12,84 @@
   </div>
 </div>
 
-<div class="mt-3 pb-0" style="width: 100%">
-  <div class="row align-self-center" style="margin-top: 20px; z-index: 98;">
-    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
-      <div class="category" style="display: flex">
-        <ng-select [items]="Category"
-                   bindLabel="kategori"
-                   placeholder="Kategori..."
-                   autofocus
-                   bindValue="kategori"
-                   [(ngModel)]="selectedCategory"
-                   (change)="onCategoryChange($event)"
-        style="width: 120%">
-        </ng-select>
-        <div class="ui icon button" style="margin-left: 5px" (click)="openModal(CategoryTemplate)">
-          <i class="edit outline icon"></i>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-      <div class="ui search">
-        <input class="prompt" style="width: 100%" type="text" placeholder="Mencari buku..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
-        <div class="results"></div>
-      </div>
-    </div>
-  </div>
-  <div class="row align-self-center">
+<div *ngIf="loading;else loads" class="ui segment" style="padding: 200px 0 0 0 ">
+  <div class="ui active inverted dimmer">
+    <div class="ui large text loader">Loading</div>
   </div>
 </div>
 
-<table class="ui celled padded table">
-  <thead>
-  <tr><th class="single line"></th>
-    <th>Judul</th>
-    <th>Penulis</th>
-    <th>Penerbit</th>
-    <th>Eksemplar</th>
-    <th>Kategori</th>
-    <th>Letak Buku</th>
-    <th>Stok</th>
-    <th>Edit</th>
-  </tr></thead>
-  <tbody>
-<!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
-  <tr *ngFor="let item of pageOfItems">
-    <td><img src="{{item.gambar}}" style="height: 100px"></td>
-    <td>{{item.judul}}</td>
-    <td>{{item.penulis}}</td>
-    <td>{{item.penerbit}}</td>
-    <td>{{item.jumlah_eksemplar}}</td>
-    <td>{{item.kategori}}</td>
-    <td>{{item.letak_buku}}</td>
-    <td>{{item.stok}}</td>
-    <td>
-      <div style="display: block">
-        <a (click)="onView(item.buku_id, update)"><i class="edit outline icon"></i></a>
-        <a></a>
-        <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
+<ng-template #loads>
+
+  <div class="mt-3 pb-0" style="width: 100%">
+    <div class="row align-self-center" style="margin-top: 20px; z-index: 98;">
+      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+        <div class="category" style="display: flex">
+          <ng-select [items]="Category"
+                     bindLabel="kategori"
+                     placeholder="Kategori..."
+                     autofocus
+                     bindValue="kategori"
+                     [(ngModel)]="selectedCategory"
+                     (change)="onCategoryChange($event)"
+                     style="width: 120%">
+          </ng-select>
+          <div class="ui icon button" style="margin-left: 5px" (click)="openModal(CategoryTemplate)">
+            <i class="edit outline icon"></i>
+          </div>
+        </div>
       </div>
-    </td>
-  </tr>
-  </tbody>
-  <tfoot>
-  <tr><th colspan="9">
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+        <div class="ui search">
+          <input class="prompt" style="width: 100%" type="text" placeholder="Mencari buku..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
+          <div class="results"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row align-self-center">
+    </div>
+  </div>
+
+  <table class="ui celled padded table">
+    <thead>
+    <tr><th class="single line">ID Buku</th>
+      <th>Judul</th>
+      <th>Penulis</th>
+      <th>Penerbit</th>
+      <th>Eksemplar</th>
+      <th>Kategori</th>
+      <th>Letak Buku</th>
+      <th>Stok</th>
+      <th>Edit</th>
+    </tr></thead>
+    <tbody>
+    <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+    <tr *ngFor="let item of pageOfItems">
+      <td style="text-align: center; margin: 0 auto"><img src="{{item.gambar}}" style="height: 100px"><div>{{item.buku_id}}</div></td>
+      <td>{{item.judul}}</td>
+      <td>{{item.penulis}}</td>
+      <td>{{item.penerbit}}</td>
+      <td>{{item.jumlah_eksemplar}}</td>
+      <td>{{item.kategori}}</td>
+      <td>{{item.letak_buku}}</td>
+      <td>{{item.stok}}</td>
+      <td>
+        <div style="display: block">
+          <a (click)="onView(item.buku_id, update)"><i class="edit outline icon"></i></a>
+          <a></a>
+          <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr><th colspan="9">
       <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
-        [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
-  </th></tr>
-  </tfoot>
-</table>
+                  [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
+    </th></tr>
+    </tfoot>
+  </table>
+</ng-template>
 
 <ng-template #template>
   <div class="modal-header">
