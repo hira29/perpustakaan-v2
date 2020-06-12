@@ -25,7 +25,7 @@
       <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8"></div>
       <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
         <div class="ui search">
-          <input class="prompt" style="width: 100%" type="text" placeholder="Mencari buku..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
+          <input class="prompt" style="width: 100%" type="text" placeholder="Mencari Pengguna..." [(ngModel)]="search" (keyup)="onSearch(search)" (search)="onSearch(search)">
           <div class="results"></div>
         </div>
       </div>
@@ -126,7 +126,7 @@
 
 <ng-template #update>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Tambahkan Pengguna</h4>
+    <h4 class="modal-title pull-left">Edit Pengguna</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>

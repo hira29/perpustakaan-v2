@@ -6,6 +6,8 @@ import {NotificationService} from '../notification.service';
 import {UserModel} from './usermodel';
 import {NgOption} from '@ng-select/ng-select';
 import {BookModel} from '../booklist/bookmodel';
+import {_app_config} from '@app-config/app.config';
+import {dataDecryption} from '../shared/security.helper';
 
 @Component({
   selector: 'app-usermanagement',
@@ -29,6 +31,7 @@ export class UsermanagementComponent implements OnInit {
   deleteID = '';
   inputUser = new UserModel('', '', '', '', '', '');
   updateUser = new UserModel('', '', '', '', '', '');
+  LoginDetails: any;
 
   constructor(
     private modalService: BsModalService,
@@ -39,20 +42,30 @@ export class UsermanagementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.Role = [
-      {id: '2', name: 'user'},
-      {id: '1', name: 'superadmin'}
-    ];
-    this.loading = true;
-    this.config = {
-      itemsPerPage: 10,
-      currentPage: 1,
-      totalItems: 0
-    };
-    this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
-    setTimeout(() => {
-      this.loading = false;
-    }, 200);
+
+    const acc = localStorage.getItem(_app_config.localstorage_prefix + 'user');
+    if (acc) {
+      this.LoginDetails = dataDecryption(acc);
+    }
+    if (this.LoginDetails.role === 'superadmin') {
+      this.Role = [
+        {id: '2', name: 'user'},
+        {id: '1', name: 'superadmin'}
+      ];
+      this.loading = true;
+      this.config = {
+        itemsPerPage: 10,
+        currentPage: 1,
+        totalItems: 0
+      };
+      this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
+      setTimeout(() => {
+        this.loading = false;
+      }, 200);
+    } else {
+      this.toastr.showWarning('Anda tidak memiliki akses untuk laman manajemen', 'Perhatian!');
+      this.router.navigate(['/dashboard']);
+    }
   }
   private loadPage(num) {
     this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/list`,
