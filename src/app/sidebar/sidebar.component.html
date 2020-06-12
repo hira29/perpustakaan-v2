@@ -3,27 +3,27 @@
        alt="logo">
   <a routerLink="/dashboard" routerLinkActive="active" placement="right" tooltip="Home" tooltipClass="custom-tooltip"
      container="body">
-    <i class="fas fa-home"></i>
+    <i class="home icon"></i>
   </a>
   <a routerLink="/books" routerLinkActive="active" placement="right" tooltip="Buku" tooltipClass="custom-tooltip"
      container="body">
-    <i class="fas fa-table"></i>
+    <i class="book icon"></i>
   </a>
   <a routerLink="/loans" routerLinkActive="active" placement="right" tooltip="Peminjaman" tooltipClass="custom-tooltip"
      container="body">
-    <i class="fas fa-chart-line"></i>
+    <i class="table icon"></i>
   </a>
-  <a routerLink="#" routerLinkActive="active" placement="right" tooltip="More" tooltipClass="custom-tooltip"
-     container="body">
-    <i class="fas fa-ellipsis-h"></i>
-  </a>
+<!--  <a routerLink="#" routerLinkActive="active" placement="right" tooltip="More" tooltipClass="custom-tooltip"-->
+<!--     container="body">-->
+<!--    <i class="fas fa-ellipsis-h"></i>-->
+<!--  </a>-->
   <div class="bottom-menu">
-    <a href="#" routerLinkActive="active" placement="right" tooltip="Help" tooltipClass="custom-tooltip"
+    <a *ngIf="getAccountLoggedIn()" routerLink="/usermanagement" routerLinkActive="active" placement="right" tooltip="Manajemen Pengguna" tooltipClass="custom-tooltip"
        container="body">
-      <i class="fas fa-question-circle"></i>
+      <i class="user secret icon"></i>
     </a>
     <a href="/logout" placement="right" tooltip="Keluar" tooltipClass="custom-tooltip"
-       container="body" (click)="onLogout()">
+       container="body">
       <i class="power off icon"></i>
     </a>
   </div>

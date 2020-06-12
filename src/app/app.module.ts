@@ -16,6 +16,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { PaginationModule} from 'ngx-bootstrap/pagination';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { LoginComponent } from './login/login.component';
+import { LoanpageComponent } from './loanpage/loanpage.component';
+import { CurrentloanComponent } from './loanpage/currentloan/currentloan.component';
+import { HistoryloanComponent } from './loanpage/historyloan/historyloan.component';
+import { UsermanagementComponent} from './usermanagement/usermanagement.component';
 
 import { AuthGuard } from './auth.guard';
 import { LogoutComponent } from './login/logout/logout.component';
@@ -23,9 +27,7 @@ import { LogoutComponent } from './login/logout/logout.component';
 /* Directive */
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoanpageComponent } from './loanpage/loanpage.component';
-import { CurrentloanComponent } from './loanpage/currentloan/currentloan.component';
-import { HistoryloanComponent } from './loanpage/historyloan/historyloan.component';
+
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { HistoryloanComponent } from './loanpage/historyloan/historyloan.compone
     LogoutComponent,
     LoanpageComponent,
     CurrentloanComponent,
-    HistoryloanComponent
+    HistoryloanComponent,
+    UsermanagementComponent
   ],
     imports: [
         BrowserModule,

@@ -18,7 +18,7 @@ import { NotificationService} from '../notification.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  public loginObj = { password: '', mhs_id: ''};
+  public loginObj = { password: '', username: ''};
   public showLoginForm = false;
   public loginSub: Subscription;
   constructor(
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
   onLogin() {
     this.loginSub = this.http.post<any>(
-      `http://127.0.0.1:6996/perpustakaan/api/v1/data_mhs/login`
+      `http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/login`
       , this.loginObj).subscribe(x => {
         const account = x.data;
 
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   }
 
   getUname(value) {
-    this.loginObj.mhs_id = value;
+    this.loginObj.username = value;
   }
   getUpass(value) {
     this.loginObj.password = value;

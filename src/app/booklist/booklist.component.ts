@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel} from './bookmodel';
 import { NotificationService} from '../notification.service';
-import {NgOption} from '@ng-select/ng-select';
+import { NgOption } from '@ng-select/ng-select';
 
 
 @Component({
@@ -157,9 +157,7 @@ export class BooklistComponent implements OnInit {
       } else {
         this.toastr.showError(x.message, 'Gagal');
       }
-      setTimeout(() => {
-        this.ngOnInit();
-      }, 1000);
+      this.ngOnInit();
     });
   }
   private onSubmitCategory(input) {

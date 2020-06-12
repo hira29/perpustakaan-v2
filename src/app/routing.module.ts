@@ -9,6 +9,7 @@ import {LogoutComponent} from './login/logout/logout.component';
 import {LoanpageComponent} from './loanpage/loanpage.component';
 import {CurrentloanComponent} from './loanpage/currentloan/currentloan.component';
 import {HistoryloanComponent} from './loanpage/historyloan/historyloan.component';
+import {UsermanagementComponent} from './usermanagement/usermanagement.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'loans', component: LoanpageComponent, canActivate: [AuthGuard]},
   { path: 'loans/current/:id', component: CurrentloanComponent, canActivate: [AuthGuard]},
   { path: 'loans/history/:id', component: HistoryloanComponent, canActivate: [AuthGuard]},
+  { path: 'usermanagement', component: UsermanagementComponent, canActivate: [AuthGuard]},
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]}
 ];
 
