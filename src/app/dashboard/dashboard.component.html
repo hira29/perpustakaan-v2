@@ -1,10 +1,128 @@
 <div id="navbar" class="header-container">
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
-      <h2>Perpustakaan</h2>
+      <h2>Dashboard</h2>
     </div>
   </div>
 </div>
 
-<p>dashboard works!</p>
+<div class="card" style="margin-top: 10px; padding: 10px">
+  <div style="text-align:center ;">
+  <h2 class="ui image header" style="font-size: 36px">
+    <div class="d-flex content">
+      <img style="height: 40px; margin: 10px" src="../../../../../assets/img/logo/logo.svg"
+           alt="logo">
+      <p class="ml-2">E-LIBRARY</p>
+    </div>
+  </h2>
+  <h2 style="text-transform: uppercase; font-size: 20px; margin-top: 0; text-align: center">
+    Selamat datang di Halaman Dashboard Admin E-Library PPNS</h2>
+  </div>
+</div>
+
+<div *ngIf="loading;else loads" class="ui segment" style="padding: 200px 0 0 0 ">
+  <div class="ui active inverted dimmer">
+    <div class="ui large text loader">Loading</div>
+  </div>
+</div>
+
+<ng-template #loads>
+  <div class="row" style="padding: 10px">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+      <div class="card">
+        <div class="container" style="padding: 30px 10px 20px 10px; text-align: center">
+          <i class="book icon" style="font-size: 40px"></i>
+          <p style="font-size: 20px; font-weight: bold">Jumlah Buku Terdaftar</p>
+          <h2>{{countBook}}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+      <div class="card">
+        <div class="container" style="padding: 30px 10px 20px 10px; text-align: center">
+          <i class="paper plane icon" style="font-size: 40px"></i>
+          <p style="font-size: 20px; font-weight: bold">Jumlah Peminjaman Berlangsung</p>
+          <h2>{{countLoan}}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+      <div class="card">
+        <div class="container" style="padding: 30px 10px 20px 10px; text-align: center">
+          <i class="reply all icon" style="font-size: 40px"></i>
+          <p style="font-size: 20px; font-weight: bold">Jumlah Pengembalian Minguan</p>
+          <h2>{{countReturn}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 10px; padding: 10px">
+    <p style="font-size: 20px; font-weight: bold">
+      <i class="paper plane icon"></i>
+      Peminjaman Berlangsung
+    </p>
+    <table class="ui celled padded table">
+      <thead>
+      <tr><th class="single line">ID Peminjaman</th>
+        <th>NRP</th>
+        <th>Nama</th>
+        <th>Jurusan</th>
+        <th>ID Buku</th>
+        <th>Buku</th>
+        <th>Penulis</th>
+        <th>Tanggal Peminjaman</th>
+      </tr></thead>
+      <tbody>
+      <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+      <tr *ngFor="let item of pageOfItemsPeminjaman">
+        <td>{{item.data_peminjaman.id_peminjaman}}</td>
+        <td>{{item.detail_mhs.mhs_id}}</td>
+        <td>{{item.detail_mhs.nama}}</td>
+        <td>{{item.detail_mhs.jurusan}}</td>
+        <td>{{item.detail_buku.buku_id}}</td>
+        <td>{{item.detail_buku.judul}}</td>
+        <td>{{item.detail_buku.penulis}}</td>
+        <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+      </tr>
+      </tbody>
+      <tfoot>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top: 30px; margin-bottom: 20px; padding: 10px">
+    <p style="font-size: 20px; font-weight: bold">
+      <i class="reply all icon"></i>
+      History Pengembalian
+    </p>
+    <table class="ui celled padded table">
+      <thead>
+      <tr><th class="single line">ID Peminjaman</th>
+        <th>NRP</th>
+        <th>Nama</th>
+        <th>Jurusan</th>
+        <th>ID Buku</th>
+        <th>Buku</th>
+        <th>Penulis</th>
+        <th>Tanggal Pengembalian</th>
+      </tr></thead>
+      <tbody>
+      <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+      <tr *ngFor="let item of pageOfItemsPengembalian">
+        <td>{{item.data_peminjaman.id_peminjaman}}</td>
+        <td>{{item.detail_mhs.mhs_id}}</td>
+        <td>{{item.detail_mhs.nama}}</td>
+        <td>{{item.detail_mhs.jurusan}}</td>
+        <td>{{item.detail_buku.buku_id}}</td>
+        <td>{{item.detail_buku.judul}}</td>
+        <td>{{item.detail_buku.penulis}}</td>
+        <td>{{item.data_peminjaman.tanggal_kembali | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+      </tr>
+      </tbody>
+      <tfoot>
+      </tfoot>
+    </table>
+  </div>
+</ng-template>
 
