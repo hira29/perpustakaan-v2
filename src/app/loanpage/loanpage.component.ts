@@ -117,5 +117,8 @@ export class LoanpageComponent implements OnInit {
         this.ngOnInit();
       });
   }
+  private onPageChange(event: any) {
+    this.router.navigate(['/loans' ], {queryParams: {page: event.page}});
+  }
 
 }

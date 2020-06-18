@@ -89,4 +89,7 @@ export class HistoryloanComponent implements OnInit {
     }
     this.modalRef = this.modalService.show(template);
   }
+  private onPageChange(event: any) {
+    this.router.navigate(['/loans/history/' + this.MhsId ], {queryParams: {page: event.page}});
+  }
 }

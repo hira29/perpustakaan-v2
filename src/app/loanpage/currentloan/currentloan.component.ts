@@ -102,4 +102,7 @@ export class CurrentloanComponent implements OnInit {
         this.ngOnInit();
       });
   }
+  private onPageChange(event: any) {
+    this.router.navigate(['/loans/current/' + this.MhsId], {queryParams: {page: event.page}});
+  }
 }

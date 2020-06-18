@@ -83,7 +83,7 @@
         <td>{{item.detail_buku.buku_id}}</td>
         <td>{{item.detail_buku.judul}}</td>
         <td>{{item.detail_buku.penulis}}</td>
-        <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+        <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y HH:mm':'UTC'}}</td>
       </tr>
       </tbody>
       <tfoot>
@@ -117,7 +117,7 @@
         <td>{{item.detail_buku.buku_id}}</td>
         <td>{{item.detail_buku.judul}}</td>
         <td>{{item.detail_buku.penulis}}</td>
-        <td>{{item.data_peminjaman.tanggal_kembali | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+        <td>{{item.data_peminjaman.tanggal_kembali | date:'d MMMM y HH:mm':'GMT+7'}}</td>
       </tr>
       </tbody>
       <tfoot>

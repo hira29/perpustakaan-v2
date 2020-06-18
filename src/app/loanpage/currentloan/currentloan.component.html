@@ -69,8 +69,8 @@
       <td>{{item.detail_buku.judul}}</td>
       <td>{{item.detail_buku.penerbit}}</td>
       <td>{{item.detail_buku.penulis}}</td>
-      <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y hh:mm':'GMT+7'}}</td>
-      <td>{{item.data_peminjaman.tanggal_pengembalian | date:'d MMMM y hh:mm':'GMT+7'}}</td>
+      <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y HH:mm':'UTC'}}</td>
+      <td>{{item.data_peminjaman.tanggal_pengembalian | date:'d MMMM y HH:mm':'UTC'}}</td>
       <td>
         <button class="ui labeled icon button" (click)="openModal(Return, item)">
           <i class="book icon"></i>
