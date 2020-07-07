@@ -54,11 +54,14 @@
     <thead>
     <tr><th class="single line">ID Buku</th>
       <th>Judul</th>
-      <th>Penulis</th>
+      <th>Pengarang</th>
       <th>Penerbit</th>
-      <th>Eksemplar</th>
+      <th>Tahun Terbit</th>
+      <th>Klasifikasi</th>
       <th>Kategori</th>
-      <th>Letak Buku</th>
+      <th>Umum/Res</th>
+      <th>Bahasa</th>
+      <th>Lokasi</th>
       <th>Stok</th>
       <th>Edit</th>
     </tr></thead>
@@ -67,11 +70,14 @@
     <tr *ngFor="let item of pageOfItems">
       <td style="text-align: center; margin: 0 auto"><img src="{{item.gambar}}" style="height: 100px"><div>{{item.buku_id}}</div></td>
       <td>{{item.judul}}</td>
-      <td>{{item.penulis}}</td>
+      <td>{{item.pengarang}}</td>
       <td>{{item.penerbit}}</td>
-      <td>{{item.jumlah_eksemplar}}</td>
+      <td>{{item.tahun_terbit}}</td>
+      <td>{{item.klasifikasi}}</td>
       <td>{{item.kategori}}</td>
-      <td>{{item.letak_buku}}</td>
+      <td>{{item.umum_res}}</td>
+      <td>{{item.bahasa}}</td>
+      <td>{{item.lokasi}}</td>
       <td>{{item.stok}}</td>
       <td>
         <div style="display: block">
@@ -83,7 +89,7 @@
     </tr>
     </tbody>
     <tfoot>
-    <tr><th colspan="9">
+    <tr><th colspan="12">
       <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
                   [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
     </th></tr>
@@ -105,46 +111,68 @@
         <label>Judul</label>
         <input required #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="inputBook.judul">
       </div>
-      <div class="required field">
-        <label>Kategori</label>
-        <ng-select [searchable]="false"
-                   [items]="Category"
-                   bindLabel="kategori"
-                   placeholder="Kategori"
-                   autofocus
-                   bindValue="kategori"
-                   [(ngModel)]="getKategori"
-                   name="input_kategori"
-                   (change)="onChange($event)">
-        </ng-select>
+
+      <div class="required field" [class.error]="pengarang.invalid && pengarang.touched">
+        <label>Pengarang</label>
+        <input required #pengarang="ngModel" type="text" name="pengarang" placeholder="pengarang" [(ngModel)]="inputBook.pengarang">
       </div>
+
+      <div class="required field" [class.error]="deskripsi.invalid && deskripsi.touched">
+        <label>Deskripsi</label>
+        <textarea required rows="2" #deskripsi="ngModel" type="text" name="Deskripsi" placeholder="Deskripsi" [(ngModel)]="inputBook.deskripsi"></textarea>
+      </div>
+
       <div class="two fields">
-        <div class="required field" [class.error]="penulis.invalid && penulis.touched">
-          <label>Penulis</label>
-          <input required #penulis="ngModel" type="text" name="penulis" placeholder="Penulis" [(ngModel)]="inputBook.penulis">
+        <div class="field">
+          <label>Edisi</label>
+          <input #edisi="ngModel" type="text" name="edisi" placeholder="Edisi" [(ngModel)]="inputBook.edisi">
         </div>
+        <div class="required field" [class.error]="tahun_terbit.invalid && tahun_terbit.touched">
+          <label>Tahun Terbit</label>
+          <input required #tahun_terbit="ngModel" type="text" name="tahun_terbit" placeholder="tahun_terbit" [(ngModel)]="inputBook.tahun_terbit">
+        </div>
+      </div>
+
+      <div class="two fields">
         <div class="required field" [class.error]="penerbit.invalid && penerbit.touched">
           <label>Penerbit</label>
           <input required #penerbit="ngModel" type="text" name="Penerbit" placeholder="Penerbit" [(ngModel)]="inputBook.penerbit">
         </div>
-      </div>
-      <div class="fields">
-        <div class="required eight wide field" >
-<!--          <label>Kategori</label>-->
-<!--          <input required #kategori="ngModel" type="text" name="kategori" placeholder="Kategori" [(ngModel)]="inputBook.kategori">-->
+        <div class="required field">
+          <label>ISBN</label>
+          <input #isbn="ngModel" type="text" name="isbn" placeholder="isbn" [(ngModel)]="inputBook.isbn">
         </div>
-        <div class="required four wide field" [class.error]="eksemplar.invalid && eksemplar.touched">
-          <label>Eksemplar</label>
-          <input required pattern="[0-9]*" #eksemplar="ngModel" type="text" name="jumlah_eksemplar" placeholder="Eksemplar" [(ngModel)]="inputBook.jumlah_eksemplar">
+      </div>
+
+      <div class="two fields">
+        <div class="required field" [class.error]="bahasa.invalid && bahasa.touched">
+          <label>Bahasa</label>
+          <input required #bahasa="ngModel" type="text" name="bahasa" placeholder="bahasa" [(ngModel)]="inputBook.bahasa">
+        </div>
+        <div class="field">
+          <label>Kota Terbit</label>
+          <input #kota_terbit="ngModel" type="text" name="Kota_Terbit" placeholder="Kota Terbit" [(ngModel)]="inputBook.kota_terbit">
+        </div>
+      </div>
+
+      <div class="fields">
+        <div class="required eight wide field" [class.error]="klasifikasi.invalid && klasifikasi.touched">
+          <label>Klasifikasi</label>
+          <input required #klasifikasi="ngModel" type="text" name="klasifikasi" placeholder="klasifikasi" [(ngModel)]="inputBook.klasifikasi">
+        </div>
+        <div class="required four wide field" [class.error]="umum_res.invalid && umum_res.touched">
+          <label>Umum/Res</label>
+          <input required #umum_res="ngModel" type="text" name="Umum/Res" placeholder="Umum/Res" [(ngModel)]="inputBook.umum_res">
         </div>
         <div class="required four wide field" [class.error]="stok.invalid && stok.touched">
           <label>Stok</label>
           <input required pattern="[0-9]*" #stok="ngModel" type="text" name="stok" placeholder="Stok" [(ngModel)]="inputBook.stok">
         </div>
       </div>
-      <div class="required field" [class.error]="letak.invalid && letak.touched">
-        <label>Letak Buku</label>
-        <input required #letak="ngModel" type="text" name="letak_buku" placeholder="Letak Buku" [(ngModel)]="inputBook.letak_buku">
+
+      <div class="required field" [class.error]="lokasi.invalid && lokasi.touched">
+        <label>Lokasi Buku</label>
+        <input required #lokasi="ngModel" type="text" name="lokasi_buku" placeholder="lokasi Buku" [(ngModel)]="inputBook.lokasi">
       </div>
 
       <div class="required field" [class.error]="gambar.invalid && gambar.touched">
@@ -170,46 +198,70 @@
 
       <div class="required field" [class.error]="judul.invalid && judul.touched">
         <label>Judul</label>
-        <input required  #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="updateBook.judul">
+        <input required #judul="ngModel" type="text" name="judul" placeholder="Judul" [(ngModel)]="updateBook.judul">
       </div>
-      <div class="required field">
-        <label>Kategori</label>
-        <ng-select [searchable]="false"
-                   [items]="Category"
-                   bindLabel="kategori"
-                   placeholder="Kategori"
-                   autofocus
-                   bindValue="kategori"
-                   [(ngModel)]="getKategori"
-                   name="submit_kategori"
-                   (change)="onChange($event)">
-        </ng-select>
+
+      <div class="required field" [class.error]="pengarang.invalid && pengarang.touched">
+        <label>Pengarang</label>
+        <input required #pengarang="ngModel" type="text" name="pengarang" placeholder="pengarang" [(ngModel)]="updateBook.pengarang">
       </div>
+
+      <div class="required field" [class.error]="deskripsi.invalid && deskripsi.touched">
+        <label>Deskripsi</label>
+        <textarea required rows="2" #deskripsi="ngModel" type="text" name="Deskripsi" placeholder="Deskripsi" [(ngModel)]="updateBook.deskripsi"></textarea>
+      </div>
+
       <div class="two fields">
-        <div class="required field" [class.error]="penulis.invalid && penulis.touched">
-          <label>Penulis</label>
-          <input required #penulis="ngModel" type="text" name="penulis" placeholder="Penulis" [(ngModel)]="updateBook.penulis">
+        <div class="field">
+          <label>Edisi</label>
+          <input #edisi="ngModel" type="text" name="edisi" placeholder="Edisi" [(ngModel)]="updateBook.edisi">
         </div>
+        <div class="required field" [class.error]="tahun_terbit.invalid && tahun_terbit.touched">
+          <label>Tahun Terbit</label>
+          <input required #tahun_terbit="ngModel" type="text" name="tahun_terbit" placeholder="tahun_terbit" [(ngModel)]="updateBook.tahun_terbit">
+        </div>
+      </div>
+
+      <div class="two fields">
         <div class="required field" [class.error]="penerbit.invalid && penerbit.touched">
           <label>Penerbit</label>
           <input required #penerbit="ngModel" type="text" name="Penerbit" placeholder="Penerbit" [(ngModel)]="updateBook.penerbit">
         </div>
-      </div>
-      <div class="fields">
-        <div class="required eight wide field">
+        <div class="required field">
+          <label>ISBN</label>
+          <input #isbn="ngModel" type="text" name="isbn" placeholder="isbn" [(ngModel)]="updateBook.isbn">
         </div>
-        <div class="required four wide field" [class.error]="eksemplar.invalid && eksemplar.touched">
-          <label>Eksemplar</label>
-          <input required pattern="[0-9]*" #eksemplar="ngModel" type="text" name="jumlah_eksemplar" placeholder="Eksemplar" [(ngModel)]="updateBook.jumlah_eksemplar">
+      </div>
+
+      <div class="two fields">
+        <div class="required field" [class.error]="bahasa.invalid && bahasa.touched">
+          <label>Bahasa</label>
+          <input required #bahasa="ngModel" type="text" name="bahasa" placeholder="bahasa" [(ngModel)]="updateBook.bahasa">
+        </div>
+        <div class="field">
+          <label>Kota Terbit</label>
+          <input #kota_terbit="ngModel" type="text" name="Kota_Terbit" placeholder="Kota Terbit" [(ngModel)]="updateBook.kota_terbit">
+        </div>
+      </div>
+
+      <div class="fields">
+        <div class="required eight wide field" [class.error]="klasifikasi.invalid && klasifikasi.touched">
+          <label>Klasifikasi</label>
+          <input required #klasifikasi="ngModel" type="text" name="klasifikasi" placeholder="klasifikasi" [(ngModel)]="updateBook.klasifikasi">
+        </div>
+        <div class="required four wide field" [class.error]="umum_res.invalid && umum_res.touched">
+          <label>Umum/Res</label>
+          <input required #umum_res="ngModel" type="text" name="Umum/Res" placeholder="Umum/Res" [(ngModel)]="updateBook.umum_res">
         </div>
         <div class="required four wide field" [class.error]="stok.invalid && stok.touched">
           <label>Stok</label>
-          <input required pattern="[0-9]*" #stok="ngModel" type="number" name="stok" placeholder="Stok" [(ngModel)]="updateBook.stok">
+          <input required pattern="[0-9]*" #stok="ngModel" type="text" name="stok" placeholder="Stok" [(ngModel)]="updateBook.stok">
         </div>
       </div>
-      <div class="required field" [class.error]="letak.invalid && letak.touched">
-        <label>Letak Buku</label>
-        <input required #letak="ngModel" type="text" name="letak_buku" placeholder="Letak Buku" [(ngModel)]="updateBook.letak_buku">
+
+      <div class="required field" [class.error]="lokasi.invalid && lokasi.touched">
+        <label>Lokasi Buku</label>
+        <input required #lokasi="ngModel" type="text" name="lokasi_buku" placeholder="lokasi Buku" [(ngModel)]="updateBook.lokasi">
       </div>
 
       <div class="required field" [class.error]="gambar.invalid && gambar.touched">

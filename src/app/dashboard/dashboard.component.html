@@ -50,7 +50,7 @@
       <div class="card">
         <div class="container" style="padding: 30px 10px 20px 10px; text-align: center">
           <i class="reply all icon" style="font-size: 40px"></i>
-          <p style="font-size: 20px; font-weight: bold">Jumlah Pengembalian Minguan</p>
+          <p style="font-size: 20px; font-weight: bold">Jumlah Pengembalian Mingguan</p>
           <h2>{{countReturn}}</h2>
         </div>
       </div>
@@ -67,10 +67,10 @@
       <tr><th class="single line">ID Peminjaman</th>
         <th>NRP</th>
         <th>Nama</th>
-        <th>Jurusan</th>
+        <th>E-mail</th>
         <th>ID Buku</th>
         <th>Buku</th>
-        <th>Penulis</th>
+        <th>Pengarang</th>
         <th>Tanggal Peminjaman</th>
       </tr></thead>
       <tbody>
@@ -79,10 +79,10 @@
         <td>{{item.data_peminjaman.id_peminjaman}}</td>
         <td>{{item.detail_mhs.mhs_id}}</td>
         <td>{{item.detail_mhs.nama}}</td>
-        <td>{{item.detail_mhs.jurusan}}</td>
+        <td>{{item.detail_mhs.email}}</td>
         <td>{{item.detail_buku.buku_id}}</td>
         <td>{{item.detail_buku.judul}}</td>
-        <td>{{item.detail_buku.penulis}}</td>
+        <td>{{item.detail_buku.pengarang}}</td>
         <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y HH:mm':'UTC'}}</td>
       </tr>
       </tbody>
@@ -102,9 +102,9 @@
         <th>NRP</th>
         <th>Nama</th>
         <th>Jurusan</th>
-        <th>ID Buku</th>
+        <th>E-mail</th>
         <th>Buku</th>
-        <th>Penulis</th>
+        <th>Pengarang</th>
         <th>Tanggal Pengembalian</th>
       </tr></thead>
       <tbody>
@@ -113,10 +113,10 @@
         <td>{{item.data_peminjaman.id_peminjaman}}</td>
         <td>{{item.detail_mhs.mhs_id}}</td>
         <td>{{item.detail_mhs.nama}}</td>
-        <td>{{item.detail_mhs.jurusan}}</td>
+        <td>{{item.detail_mhs.email}}</td>
         <td>{{item.detail_buku.buku_id}}</td>
         <td>{{item.detail_buku.judul}}</td>
-        <td>{{item.detail_buku.penulis}}</td>
+        <td>{{item.detail_buku.pengarang}}</td>
         <td>{{item.data_peminjaman.tanggal_kembali | date:'d MMMM y HH:mm':'GMT+7'}}</td>
       </tr>
       </tbody>

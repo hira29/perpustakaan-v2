@@ -40,9 +40,9 @@
     <thead>
     <tr><th class="single line">NRP</th>
       <th>Nama</th>
-      <th>Jurusan</th>
-      <th>Tahun Masuk</th>
-      <th>Tanggal Ditambahkan</th>
+      <th>Email</th>
+      <th>Tanggal Lahir</th>
+      <th>Status</th>
       <th>Peminjaman</th>
       <th>Riwayat</th>
     </tr></thead>
@@ -51,9 +51,12 @@
     <tr *ngFor="let item of pageOfItems">
       <td style="padding-top: 22px">{{item.mhs_id}}</td>
       <td style="padding-top: 22px">{{item.nama}}</td>
-      <td style="padding-top: 22px">{{item.jurusan}}</td>
-      <td style="padding-top: 22px">{{item.tahun_masuk}}</td>
-      <td style="padding-top: 22px">{{item.tanggal_ditambahkan}}</td>
+      <td style="padding-top: 22px">{{item.email}}</td>
+      <td style="padding-top: 22px">{{item.tanggal_lahir |  date:'d MMMM y'}}</td>
+      <td *ngIf="item.active == 1; else Else" style="padding-top: 22px">Aktif</td>
+      <ng-template #Else>
+        <td style="padding-top: 22px">Tidak Aktif</td>
+      </ng-template>
       <td>
         <button class="ui labeled icon button" routerLink="/loans/current/{{item.mhs_id}}">
           <i class="book icon"></i>

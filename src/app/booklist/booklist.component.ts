@@ -26,8 +26,8 @@ export class BooklistComponent implements OnInit {
   pager = {};
   pageOfItems = [];
   Category: NgOption[];
-  inputBook = new BookModel('', '', '', '', '', '', 1, '');
-  updateBook = new BookModel('', '', '', '', '', '', 0, '');
+  inputBook = new BookModel('', '', '', '', '', '', '', '', '', '', '', '', 1, '');
+  updateBook = new BookModel('', '', '', '', '', '', '', '', '', '', '', '', 0, '');
   loading = true;
 
   modalRef: BsModalRef;
@@ -60,8 +60,6 @@ export class BooklistComponent implements OnInit {
     this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
   }
   private onChange($event) {
-    this.inputBook.kategori = this.getKategori;
-    this.updateBook.kategori = this.getKategori;
   }
   private onSearch(searchInput) {
     this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
@@ -70,12 +68,18 @@ export class BooklistComponent implements OnInit {
     this.inputCategory = '';
     this.getKategori = null;
     this.inputBook.judul = '';
-    this.inputBook.kategori = '';
+    this.inputBook.edisi = '';
     this.inputBook.penerbit = '';
-    this.inputBook.letak_buku = '';
-    this.inputBook.jumlah_eksemplar = '';
-    this.inputBook.penulis = '';
+    this.inputBook.tahun_terbit = '';
+    this.inputBook.deskripsi = '';
+    this.inputBook.pengarang = '';
+    this.inputBook.umum_res = '';
+    this.inputBook.bahasa = '';
+    this.inputBook.isbn = '';
+    this.inputBook.lokasi = '';
+    this.inputBook.kota_terbit = '';
     this.inputBook.gambar = '';
+    this.inputBook.klasifikasi = '';
     this.modalRef = this.modalService.show(template);
   }
   private onPageChange(event: any) {
@@ -85,7 +89,6 @@ export class BooklistComponent implements OnInit {
     this.http.get<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/view/` + id)
       .subscribe(x => {
         this.updateBook = x.data;
-        this.getKategori = this.updateBook.kategori;
       });
     this.modalRef = this.modalService.show(template);
   }
@@ -127,12 +130,18 @@ export class BooklistComponent implements OnInit {
   }
   private onSubmit(data: BookModel) {
     if (this.inputBook.judul === '' &&
-        this.inputBook.kategori === '' &&
+        this.inputBook.edisi === '' &&
         this.inputBook.penerbit === '' &&
-        this.inputBook.letak_buku === '' &&
-        this.inputBook.jumlah_eksemplar === '' &&
-        this.inputBook.penulis === '' &&
-        this.inputBook.gambar === '') {
+        this.inputBook.tahun_terbit === '' &&
+        this.inputBook.deskripsi === '' &&
+        this.inputBook.pengarang === '' &&
+        this.inputBook.umum_res === '' &&
+        this.inputBook.bahasa === '' &&
+        this.inputBook.isbn === '' &&
+        this.inputBook.lokasi === '' &&
+        this.inputBook.kota_terbit === '' &&
+        this.inputBook.gambar === '' &&
+        this.inputBook.klasifikasi === '' ) {
       this.toastr.showError('Data yang dibutuhkan Kosong!', 'Gagal');
     } else {
       this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/create`,

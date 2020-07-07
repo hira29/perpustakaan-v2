@@ -2,13 +2,20 @@ export class BookModel {
   constructor(
     // tslint:disable-next-line:variable-name
     public judul: string,
-    public penulis: string,
+    public edisi: string,
+    public pengarang: string,
+    // tslint:disable-next-line:variable-name
+    public kota_terbit: string,
     public penerbit: string,
-    public kategori: string,
+    public tahun_terbit: string,
+    public isbn: string,
+    public klasifikasi: string,
+    public umum_res: string,
     // tslint:disable-next-line:variable-name
-    public jumlah_eksemplar: string,
+    public bahasa: string,
     // tslint:disable-next-line:variable-name
-    public letak_buku: string,
+    public lokasi: string,
+    public deskripsi: string,
     public stok: number,
     public gambar: string
   ) {
