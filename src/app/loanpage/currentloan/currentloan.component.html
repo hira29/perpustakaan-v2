@@ -50,13 +50,20 @@
     </div>
   </div>
 
+  <div *ngIf="nodata; else theredata" class="card" style="margin-top: 10px; padding: 10px">
+    <div style="text-align:center ;">
+      <p class="ml-2" style="font-size: 18px; padding: 2rem;">Pencarian tidak ditemukan!</p>
+    </div>
+  </div>
+
+  <ng-template #theredata>
   <table class="ui celled padded table">
     <thead>
     <tr><th class="single line">ID Peminjaman</th>
       <th>ID Buku</th>
       <th>Judul Buku</th>
       <th>Penerbit</th>
-      <th>Penulis</th>
+      <th>Pengarang</th>
       <th>Tanggal Peminjaman</th>
       <th>Tanggal Pengembalian</th>
       <th>Pengembalian</th>
@@ -68,7 +75,7 @@
       <td>{{item.detail_buku.buku_id}}</td>
       <td>{{item.detail_buku.judul}}</td>
       <td>{{item.detail_buku.penerbit}}</td>
-      <td>{{item.detail_buku.penulis}}</td>
+      <td>{{item.detail_buku.pengarang}}</td>
       <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y HH:mm':'UTC'}}</td>
       <td>{{item.data_peminjaman.tanggal_pengembalian | date:'d MMMM y HH:mm':'UTC'}}</td>
       <td>
@@ -86,6 +93,7 @@
     </th></tr>
     </tfoot>
   </table>
+  </ng-template>
 </ng-template>
 
 <ng-template #Return>

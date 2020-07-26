@@ -50,51 +50,59 @@
     </div>
   </div>
 
-  <table class="ui celled padded table">
-    <thead>
-    <tr><th class="single line">ID Buku</th>
-      <th>Judul</th>
-      <th>Pengarang</th>
-      <th>Penerbit</th>
-      <th>Tahun Terbit</th>
-      <th>Klasifikasi</th>
-      <th>Kategori</th>
-      <th>Umum/Res</th>
-      <th>Bahasa</th>
-      <th>Lokasi</th>
-      <th>Stok</th>
-      <th>Edit</th>
-    </tr></thead>
-    <tbody>
-    <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
-    <tr *ngFor="let item of pageOfItems">
-      <td style="text-align: center; margin: 0 auto"><img src="{{item.gambar}}" style="height: 100px"><div>{{item.buku_id}}</div></td>
-      <td>{{item.judul}}</td>
-      <td>{{item.pengarang}}</td>
-      <td>{{item.penerbit}}</td>
-      <td>{{item.tahun_terbit}}</td>
-      <td>{{item.klasifikasi}}</td>
-      <td>{{item.kategori}}</td>
-      <td>{{item.umum_res}}</td>
-      <td>{{item.bahasa}}</td>
-      <td>{{item.lokasi}}</td>
-      <td>{{item.stok}}</td>
-      <td>
-        <div style="display: block">
-          <a (click)="onView(item.buku_id, update)"><i class="edit outline icon"></i></a>
-          <a></a>
-          <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
-        </div>
-      </td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr><th colspan="12">
-      <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
-                  [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
-    </th></tr>
-    </tfoot>
-  </table>
+  <div *ngIf="nodata; else theredata" class="card" style="margin-top: 10px; padding: 10px">
+    <div style="text-align:center ;">
+      <p class="ml-2" style="font-size: 18px; padding: 2rem;">Pencarian tidak ditemukan!</p>
+    </div>
+  </div>
+
+  <ng-template #theredata>
+    <table class="ui celled padded table">
+      <thead>
+      <tr><th class="single line">ID Buku</th>
+        <th>Judul</th>
+        <th>Pengarang</th>
+        <th>Penerbit</th>
+        <th>Tahun Terbit</th>
+        <th>Klasifikasi</th>
+        <th>Kategori</th>
+        <th>Umum/Res</th>
+        <th>Bahasa</th>
+        <th>Lokasi</th>
+        <th>Stok</th>
+        <th>Edit</th>
+      </tr></thead>
+      <tbody>
+      <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+      <tr *ngFor="let item of pageOfItems">
+        <td style="text-align: center; margin: 0 auto"><img src="{{item.gambar}}" style="height: 100px"><div>{{item.buku_id}}</div></td>
+        <td>{{item.judul}}</td>
+        <td>{{item.pengarang}}</td>
+        <td>{{item.penerbit}}</td>
+        <td>{{item.tahun_terbit}}</td>
+        <td>{{item.klasifikasi}}</td>
+        <td>{{item.kategori}}</td>
+        <td>{{item.umum_res}}</td>
+        <td>{{item.bahasa}}</td>
+        <td>{{item.lokasi}}</td>
+        <td>{{item.stok}}</td>
+        <td>
+          <div style="display: block">
+            <a (click)="onView(item.buku_id, update)"><i class="edit outline icon"></i></a>
+            <a></a>
+            <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr><th colspan="12">
+        <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
+                    [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
+      </th></tr>
+      </tfoot>
+    </table>
+  </ng-template>
 </ng-template>
 
 <ng-template #template>

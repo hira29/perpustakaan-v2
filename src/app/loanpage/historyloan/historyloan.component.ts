@@ -21,6 +21,7 @@ export class HistoryloanComponent implements OnInit {
   infoTime: string;
   lateTime: boolean;
   loading = true;
+  nodata = false;
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -54,13 +55,18 @@ export class HistoryloanComponent implements OnInit {
     this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/riwayat',
       {id: this.MhsId, search: this.search, page: +num, size: 10 })
       .subscribe(x => {
-        this.pager = x.data;
-        this.pageOfItems = x.data.records;
-        this.config = {
-          itemsPerPage: x.data.limit,
-          currentPage: x.data.page,
-          totalItems: x.data.total_record
-        };
+        if (x.data.total_record === 0) {
+          this.nodata = true;
+        } else {
+          this.nodata = false;
+          this.pager = x.data;
+          this.pageOfItems = x.data.records;
+          this.config = {
+            itemsPerPage: x.data.limit,
+            currentPage: x.data.page,
+            totalItems: x.data.total_record
+          };
+        }
       });
   }
   private onSearch(searchInput) {

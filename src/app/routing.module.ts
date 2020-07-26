@@ -10,6 +10,8 @@ import {LoanpageComponent} from './loanpage/loanpage.component';
 import {CurrentloanComponent} from './loanpage/currentloan/currentloan.component';
 import {HistoryloanComponent} from './loanpage/historyloan/historyloan.component';
 import {UsermanagementComponent} from './usermanagement/usermanagement.component';
+import {ReturnpageComponent} from './returnpage/returnpage.component';
+import {ReturnlandingpageComponent} from './returnlandingpage/returnlandingpage.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -21,7 +23,9 @@ const routes: Routes = [
   { path: 'loans/current/:id', component: CurrentloanComponent, canActivate: [AuthGuard]},
   { path: 'loans/history/:id', component: HistoryloanComponent, canActivate: [AuthGuard]},
   { path: 'usermanagement', component: UsermanagementComponent, canActivate: [AuthGuard]},
-  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]}
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
+  { path: 'return_approval', component: ReturnpageComponent, canActivate: [AuthGuard]},
+  { path: 'home', component: ReturnlandingpageComponent}
 ];
 
 @NgModule({

@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (!localStorage.getItem(_app_config.localstorage_prefix + 'user')) {
       // alert('You don\'t have authentication to entrance this page.');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
       return false;
     } else {
       this.router.events

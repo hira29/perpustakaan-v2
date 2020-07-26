@@ -2,26 +2,24 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
-import {NotificationService} from '../../notification.service';
+import {NotificationService} from '../notification.service';
 
 @Component({
-  selector: 'app-currentloan',
-  templateUrl: './currentloan.component.html',
-  styleUrls: ['./currentloan.component.css']
+  selector: 'app-returnpage',
+  templateUrl: './returnpage.component.html',
+  styleUrls: ['./returnpage.component.css']
 })
-export class CurrentloanComponent implements OnInit {
-  MhsId: any;
-  dataMhs: any;
+export class ReturnpageComponent implements OnInit {
   config: any;
-  search: string;
   pager = {};
   pageOfItems = [];
+  nodata = false;
+  loading: boolean;
   modalRef: BsModalRef;
   infoReturn: any;
   infoTime: string;
   lateTime: boolean;
-  loading = true;
-  nodata = false;
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -31,33 +29,25 @@ export class CurrentloanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.MhsId = this.route.snapshot.paramMap.get('id');
-    this.getMhsInfo();
+    this.loading = true;
     this.config = {
       itemsPerPage: 10,
       currentPage: 1,
       totalItems: 0
     };
-    this.route.queryParams.subscribe(x => this.getLoanInfo(x.page || 1));
-    this.loading = true;
+    this.route.queryParams.subscribe(x => this.getReturnApproval(x.page || 1));
     setTimeout(() => {
       this.loading = false;
     }, 300);
   }
-  getMhsInfo() {
-    this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/data_mhs/view/'
-      + this.MhsId).subscribe( x => {
-        this.dataMhs = x.data;
-    });
-  }
-  getLoanInfo(num) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/berlangsung',
-      {id: this.MhsId, search: this.search, page: +num, size: 10 })
+
+  getReturnApproval(num) {
+    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/pengembalian/adminlist',
+      {id: '', search: '', page: +num, size: 10})
       .subscribe(x => {
-        if (x.data.total_record === 0) {
+        if (x.data.records === null) {
           this.nodata = true;
         } else {
-          this.nodata = false;
           this.pager = x.data;
           this.pageOfItems = x.data.records;
           this.config = {
@@ -68,12 +58,10 @@ export class CurrentloanComponent implements OnInit {
         }
       });
   }
-  private onSearch(searchInput) {
-    this.route.queryParams.subscribe(x => this.getLoanInfo(x.page || 1));
-  }
+
   private openModal(template: TemplateRef<any>, data: any) {
     this.infoReturn = data;
-    const Today = new Date();
+    const Today = new Date(data.data_peminjaman.tanggal_kembali);
     const startDate = new Date(data.data_peminjaman.tanggal_peminjaman);
     const endDate = new Date(data.data_peminjaman.tanggal_pengembalian);
     const acc = endDate.getTime() - startDate.getTime();
@@ -90,12 +78,13 @@ export class CurrentloanComponent implements OnInit {
     } else {
       this.infoTime = 'Terlambat ' + time + ' Hari';
       this.lateTime = true;
-      this.toastr.showWarning('ID ' + this.MhsId + ' terlambat ' + time + ' Hari', 'Warning!');
+      this.toastr.showWarning('ID ' + this.infoReturn.detail_mhs.mhs_id + ' terlambat ' + time + ' Hari', 'Warning!');
     }
     this.modalRef = this.modalService.show(template);
   }
+
   onSubmitReturn(id: string) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/kembali',
+    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/pengembalian/admin',
       {id_peminjaman: id } )
       .subscribe(x => {
         this.modalRef.hide();
@@ -107,7 +96,9 @@ export class CurrentloanComponent implements OnInit {
         this.ngOnInit();
       });
   }
+
   private onPageChange(event: any) {
-    this.router.navigate(['/loans/current/' + this.MhsId], {queryParams: {page: event.page}});
+    this.router.navigate(['/return_approval'], {queryParams: {page: event.page}});
   }
+
 }

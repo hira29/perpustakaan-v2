@@ -53,35 +53,11 @@ button .icon {
   }
 }
 
-@media only screen and (min-width: 641px) {
-  .category {
-    width: 100%
-  }
-}
-
-@media only screen and (min-width: 576px){
-  .category {
-    width: 80%
-  }
-}
-
-@media only screen and (min-width: 769px) {
-  .category {
-    width: 60%
-  }
-}
-
-
-@media only screen and (min-width: 1200px) {
-  .category {
-    width: 40%
-  }
-}
 
 .header-container {
   padding: 15px 20px 15px 10px;
   background-color: white;
-  z-index: 70;
+  z-index: 98;
   box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
 }
 .sticky-header {
@@ -97,12 +73,10 @@ button .icon {
 }
 
 .content-container {
-  padding: 0 20px 0 20px;
+  padding: 0 20px 0 80px;
   background-color: white;
 }
 .content-when-sticky-header {
   padding-top: 80px;
 }
 
-.my-pagination /deep/ .ngx-pagination .current {
-}

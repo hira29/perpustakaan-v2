@@ -1,0 +1,123 @@
+<div class="content-container">
+  <div id="navbar" class="header-container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
+        <h2 class="ui image header" style="font-size: 36px">
+          <div class="d-flex content">
+            <img style="height: 40px; margin: 10px" src="../../../../../assets/img/logo/logo.svg"
+                 alt="logo">
+            <p class="ml-2">E-LIBRARY</p>
+          </div>
+        </h2>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 right-navbar">
+        <div style="padding-top: 12px">
+        <button class="btn btn-primary btn-icon btn-new-menu" routerLink="/login">
+          <i class="user icon"></i>
+          Login Admin
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 20px">
+  <div class="card" style="margin-top: 10px; padding: 20px">
+    <div style="text-align:center ;">
+      <h2 class="ui image header" style="font-size: 36px">
+        <div class="d-flex content">
+          <img style="height: 40px; margin: 10px" src="../../../../../assets/img/logo/logo.svg"
+               alt="logo">
+          <p class="ml-2">E-LIBRARY</p>
+        </div>
+      </h2>
+      <h2 style="text-transform: uppercase; font-size: 20px; margin-top: 0; text-align: center">
+        Selamat datang di Halaman Pengembalian Buku E-Library PPNS</h2>
+    </div>
+  </div>
+</div>
+<div style="padding: 0px 20px 20px 20px">
+  <div class="card" style="margin-top: 10px; padding: 20px">
+    <div style="text-align:center ;">
+      <div class="ui container" style="padding-top: 8px;">
+        <div class="ui middle aligned center aligned grid">
+          <div class="sixteen wide mobile five wide computer column">
+            <form class="ui large form" (keyup)="keyDownFunction($event, Return)" style="box-shadow: rgba(0,0,0,0.5)">
+              <div class="ui stacked">
+                <div class="field" style="margin-bottom: -1px">
+                  <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input type="text" name="user_name" id="idMhs" class="no-focus" autocomplete="off"
+                           placeholder="ID Mahasiswa" #idMhs="ngModel" (change)="getMhsId(idMhs.value)" [(ngModel)]="input.idMhs"
+                           style="border-radius: .28571429rem .28571429rem 0 0" />
+                  </div>
+                </div>
+                <div class="field" style="margin: 0">
+                  <div class="ui left icon input">
+                    <i class="book icon"></i>
+                    <input type="text" name="password" id="idBuku" class="no-focus" autocomplete="off"
+                           placeholder="ID Buku" #idBuku="ngModel" (change)="getBukuId(idBuku.value)" [(ngModel)]="input.idBuku"
+                           style="border-radius: 0" />
+                  </div>
+                </div>
+                <div class="ui fluid large button blue" (click)="onInput(Return)"
+                     style="border-radius: 0 0 .28571429rem .28571429rem">Pengembalian</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- LOGIN DEFAULT END -->
+    </div>
+  </div>
+</div>
+
+<ng-template #Return>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Pengembalian</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img src="{{infoReturn.detail_buku.gambar}}" style="height: 200px; display: block;
+            margin-left: auto;
+            margin-right: auto;">
+    <table class="ui definition table">
+      <tbody>
+      <tr>
+        <td class="two wide column">ID Buku</td>
+        <td>{{infoReturn.detail_buku.buku_id}}</td>
+      </tr>
+      <tr>
+        <td>Judul</td>
+        <td>{{infoReturn.detail_buku.judul}}</td>
+      </tr>
+      <tr>
+        <td>Pengarang</td>
+        <td>{{infoReturn.detail_buku.pengarang}}</td>
+      </tr>
+      <tr>
+        <td>Penerbit</td>
+        <td>{{infoReturn.detail_buku.penerbit}}</td>
+      </tr>
+      <tr>
+        <td>Kategori</td>
+        <td>{{infoReturn.detail_buku.kategori}}</td>
+      </tr>
+      <tr>
+        <td>Info Keterlambatan</td>
+        <td *ngIf="lateTime;else notLate" style="color:red">{{infoTime}}</td>
+        <ng-template #notLate>
+          <td>{{infoTime}}</td>
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <button class="ui button" type="submit" (click)="onSubmitReturn(infoReturn.data_peminjaman.id_peminjaman)">Kembalikan</button>
+  </div>
+</ng-template>

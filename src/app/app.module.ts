@@ -27,6 +27,8 @@ import { LogoutComponent } from './login/logout/logout.component';
 /* Directive */
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReturnpageComponent } from './returnpage/returnpage.component';
+import { ReturnlandingpageComponent } from './returnlandingpage/returnlandingpage.component';
 
 
 
@@ -41,7 +43,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoanpageComponent,
     CurrentloanComponent,
     HistoryloanComponent,
-    UsermanagementComponent
+    UsermanagementComponent,
+    ReturnpageComponent,
+    ReturnlandingpageComponent
   ],
     imports: [
         BrowserModule,

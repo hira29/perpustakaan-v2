@@ -1,0 +1,110 @@
+<div id="navbar" class="header-container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
+      <h2>Persetujuan Pengembalian</h2>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading;else loads" class="ui segment" style="padding: 200px 0 0 0 ">
+  <div class="ui active inverted dimmer">
+    <div class="ui large text loader">Loading</div>
+  </div>
+</div>
+
+<ng-template #loads>
+
+  <div *ngIf="nodata; else theredata" class="card" style="margin-top: 10px; padding: 10px">
+    <div style="text-align:center ;">
+      <p class="ml-2" style="font-size: 18px; padding: 2rem;">Tidak ditemukan permintaan pengembalian!</p>
+    </div>
+  </div>
+
+  <ng-template #theredata>
+    <table class="ui celled padded table">
+      <thead>
+      <tr><th class="single line">ID Peminjaman</th>
+        <th>ID Buku</th>
+        <th>Judul Buku</th>
+        <th>ID Peminjam</th>
+        <th>Nama</th>
+        <th>Tanggal Peminjaman</th>
+        <th>Tanggal Pengembalian</th>
+        <th>Tanggal Kembali</th>
+        <th>Info</th>
+      </tr></thead>
+      <tbody>
+      <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+      <tr *ngFor="let item of pageOfItems">
+        <td>{{item.data_peminjaman.id_peminjaman}}</td>
+        <td>{{item.detail_buku.buku_id}}</td>
+        <td>{{item.detail_buku.judul}}</td>
+        <td>{{item.detail_mhs.mhs_id}}</td>
+        <td>{{item.detail_mhs.nama}}</td>
+        <td>{{item.data_peminjaman.tanggal_peminjaman | date:'d MMMM y HH:mm':'UTC'}}</td>
+        <td>{{item.data_peminjaman.tanggal_pengembalian | date:'d MMMM y HH:mm':'UTC'}}</td>
+        <td>{{item.data_peminjaman.tanggal_kembali | date:'d MMMM y HH:mm':'GMT+7'}}</td>
+        <td>
+          <div class="ui icon button" (click)="openModal(ReturnModal, item)">
+            <i class="check circle outline icon"></i>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr><th colspan="9">
+        <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
+                    [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
+      </th></tr>
+      </tfoot>
+    </table>
+  </ng-template>
+</ng-template>
+
+<ng-template #ReturnModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Pengembalian</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img src="{{infoReturn.detail_buku.gambar}}" style="height: 200px; display: block;
+            margin-left: auto;
+            margin-right: auto;">
+    <table class="ui definition table">
+      <tbody>
+      <tr>
+        <td class="two wide column">ID Buku</td>
+        <td>{{infoReturn.detail_buku.buku_id}}</td>
+      </tr>
+      <tr>
+        <td>Judul</td>
+        <td>{{infoReturn.detail_buku.judul}}</td>
+      </tr>
+      <tr>
+        <td>Pengarang</td>
+        <td>{{infoReturn.detail_buku.pengarang}}</td>
+      </tr>
+      <tr>
+        <td>Penerbit</td>
+        <td>{{infoReturn.detail_buku.penerbit}}</td>
+      </tr>
+      <tr>
+        <td>Kategori</td>
+        <td>{{infoReturn.detail_buku.kategori}}</td>
+      </tr>
+      <tr>
+        <td>Info Keterlambatan</td>
+        <td *ngIf="lateTime;else notLate" style="color:red">{{infoTime}}</td>
+        <ng-template #notLate>
+          <td>{{infoTime}}</td>
+        </ng-template>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="ui button" type="submit" (click)="onSubmitReturn(infoReturn.data_peminjaman.id_peminjaman)">Setujui Pengembalian</button>
+  </div>
+</ng-template>

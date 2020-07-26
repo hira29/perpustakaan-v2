@@ -1,3 +1,17 @@
+<div class="content-container">
+  <div id="navbar" class="header-container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 right-navbar">
+        <button class="btn btn-primary btn-icon btn-new-menu" routerLink="/home">
+          <i class="arrow left icon"></i>
+          Kembali
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- LOGIN DEFAULT -->
 <div class="ui container" style="padding-top: 28vh;">
   <div class="ui middle aligned center aligned grid">
@@ -27,7 +41,7 @@
                      style="border-radius: 0" />
             </div>
           </div>
-          <div class="ui fluid large button blue"
+          <div class="ui fluid large button blue" (click)="onLogin()"
                style="border-radius: 0 0 .28571429rem .28571429rem">Login</div>
         </div>
       </form>

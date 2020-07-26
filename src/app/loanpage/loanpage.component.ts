@@ -21,6 +21,7 @@ export class LoanpageComponent implements OnInit {
   lateTime: boolean;
   peminjamanId: string;
   unhide = false;
+  nodata = false;
 
   constructor(
     private modalService: BsModalService,
@@ -45,13 +46,18 @@ export class LoanpageComponent implements OnInit {
   private loadPage(num) {
     this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_mhs/list`,
       {search: this.search, page: +num, size : 10}).subscribe(x => {
-      this.pager = x.data;
-      this.pageOfItems = x.data.records;
-      this.config = {
-        itemsPerPage: x.data.limit,
-        currentPage: x.data.page,
-        totalItems: x.data.total_record
-      };
+        if (x.data.total_record === 0) {
+          this.nodata = true;
+        } else {
+          this.nodata = false;
+          this.pager = x.data;
+          this.pageOfItems = x.data.records;
+          this.config = {
+            itemsPerPage: x.data.limit,
+            currentPage: x.data.page,
+            totalItems: x.data.total_record
+          };
+        }
     });
   }
   private onSearch(searchInput) {
@@ -72,7 +78,6 @@ export class LoanpageComponent implements OnInit {
     } else {
       this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/view/' + id)
         .subscribe(x => {
-          console.log(x);
           if (x.status === true) {
             this.unhide = true;
             this.infoReturn = x.data;

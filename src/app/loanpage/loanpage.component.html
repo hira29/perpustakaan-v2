@@ -36,6 +36,13 @@
     </div>
   </div>
 
+  <div *ngIf="nodata; else theredata" class="card" style="margin-top: 10px; padding: 10px">
+    <div style="text-align:center ;">
+      <p class="ml-2" style="font-size: 18px; padding: 2rem;">Pencarian tidak ditemukan!</p>
+    </div>
+  </div>
+
+  <ng-template #theredata>
   <table class="ui celled padded table">
     <thead>
     <tr><th class="single line">NRP</th>
@@ -78,6 +85,7 @@
     </th></tr>
     </tfoot>
   </table>
+  </ng-template>
 </ng-template>
 
 

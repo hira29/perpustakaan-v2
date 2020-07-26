@@ -29,6 +29,7 @@ export class BooklistComponent implements OnInit {
   inputBook = new BookModel('', '', '', '', '', '', '', '', '', '', '', '', 1, '');
   updateBook = new BookModel('', '', '', '', '', '', '', '', '', '', '', '', 0, '');
   loading = true;
+  nodata = false;
 
   modalRef: BsModalRef;
   constructor(
@@ -118,14 +119,21 @@ export class BooklistComponent implements OnInit {
       this.selectedCategory = 'All';
     }
     this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/list`,
-      {category: this.selectedCategory, search: this.search, page: +num, size : 10}).subscribe(x => {
-      this.pager = x.data;
-      this.pageOfItems = x.data.records;
-      this.config = {
-        itemsPerPage: x.data.limit,
-        currentPage: x.data.page,
-        totalItems: x.data.total_record
-      };
+      {category: this.selectedCategory, search: this.search, page: +num, size : 10})
+      .subscribe(x => {
+        console.log(x);
+        if (x.data.total_record === 0) {
+          this.nodata = true;
+        } else {
+          this.nodata = false;
+          this.pager = x.data;
+          this.pageOfItems = x.data.records;
+          this.config = {
+            itemsPerPage: x.data.limit,
+            currentPage: x.data.page,
+            totalItems: x.data.total_record
+          };
+        }
     });
   }
   private onSubmit(data: BookModel) {
