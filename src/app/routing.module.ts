@@ -16,7 +16,7 @@ import {ReturnlandingpageComponent} from './returnlandingpage/returnlandingpage.
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full', canActivate: [AuthGuard]},
+  { path: '', redirectTo: '/home', pathMatch: 'full', canActivate: [AuthGuard]},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'books', component: BooklistComponent, canActivate: [AuthGuard]},
   { path: 'loans', component: LoanpageComponent, canActivate: [AuthGuard]},
