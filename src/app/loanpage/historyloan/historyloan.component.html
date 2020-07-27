@@ -4,6 +4,11 @@
       <h2>Riwayat</h2>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 right-navbar">
+      <button class="btn btn-icon btn-new-menu" style="color: #fff;margin-right: 20px; background-color: #107c41; box-shadow: 0 0 0 0 rgba(34,36,38,.15)"
+              (click)="openDownloadModal(DownloadTemplate)">
+        <i class="download icon"></i>
+        Unduh Excel
+      </button>
       <button class="btn btn-primary btn-icon btn-new-menu" routerLink="/loans">
         <i class="arrow alternate circle left outline icon"></i>
         Kembali
@@ -141,5 +146,31 @@
       </tr>
       </tbody>
     </table>
+  </div>
+</ng-template>
+
+<ng-template #DownloadTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Download Tabel</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="loadingDL;else loadsDL" class="ui segment" style="padding: 200px 0 0 0 ">
+      <div class="ui active inverted dimmer">
+        <div class="ui large text loader">Memproses tabel</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loadsDL>
+  <div style="text-align: center; padding: 10px">
+    <button class="btn btn-icon btn-new-menu" style="color: #fff;margin-right: 20px; background-color: #107c41; box-shadow: 0 0 0 0 rgba(34,36,38,.15)"
+            (click)="onDownload()">
+      <i class="download icon"></i>
+      Unduh
+    </button>
   </div>
 </ng-template>

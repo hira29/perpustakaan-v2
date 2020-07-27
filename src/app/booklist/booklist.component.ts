@@ -1,10 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookModel} from './bookmodel';
 import { NotificationService} from '../notification.service';
 import { NgOption } from '@ng-select/ng-select';
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -15,7 +16,7 @@ import { NgOption } from '@ng-select/ng-select';
 
 export class BooklistComponent implements OnInit {
   public title = 'Book List';
-
+  loadingDL: boolean;
   inputCategory: string;
   selectedCategory: string;
   getKategori: string;
@@ -199,11 +200,43 @@ export class BooklistComponent implements OnInit {
         } else {
           this.toastr.showError(x.message, 'Gagal');
         }
-        this.http.get('http://localhost:6996/perpustakaan/api/v1/kategori/list')
+        this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/kategori/list')
           .subscribe(dataset => {
             this.data = dataset;
             this.Category = this.data.data;
           });
+      });
+  }
+  returnBlob(res): Blob {
+    return new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  }
+
+  private onDownload() {
+    this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/download', {responseType: 'blob'})
+      .subscribe(res => {
+      if (res) {
+        const url = window.URL.createObjectURL(this.returnBlob(res));
+        window.open(url);
+      }
+    });
+  }
+
+  openDownloadModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    this.loadingDL = true;
+
+    this.http.post<any>(`http://localhost:6996/perpustakaan/api/v1/data_buku/createlistbuku`,
+      {category: this.selectedCategory, search: this.search, page: 1, size : this.config.totalItems})
+      .subscribe(x => {
+        console.log(x);
+        if (x.status === true) {
+          setTimeout(() => {
+            this.loadingDL = false;
+          }, 1000);
+          this.toastr.showSuccess('Data berhasil didapat', 'Berhasil');
+        } else {
+          this.toastr.showError('Data gagal Diolah', 'Gagal');
+        }
       });
   }
 }

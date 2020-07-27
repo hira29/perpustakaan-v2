@@ -10,6 +10,7 @@ import {NotificationService} from '../notification.service';
   styleUrls: ['./loanpage.component.css']
 })
 export class LoanpageComponent implements OnInit {
+  loadingDL: boolean;
   config: any;
   search: string;
   pager = {};
@@ -124,6 +125,39 @@ export class LoanpageComponent implements OnInit {
   }
   private onPageChange(event: any) {
     this.router.navigate(['/loans' ], {queryParams: {page: event.page}});
+  }
+
+  returnBlob(res): Blob {
+    return new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  }
+
+  private onDownload() {
+    this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/data_mhs/download', {responseType: 'blob'})
+      .subscribe(res => {
+        if (res) {
+          const url = window.URL.createObjectURL(this.returnBlob(res));
+          window.open(url);
+        }
+      });
+  }
+
+  openDownloadModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    this.loadingDL = true;
+
+    this.http.post<any>(`http://localhost:6996/perpustakaan/api/v1/data_mhs/createlistmhs`,
+      {search: this.search, page: 1, size : this.config.totalItems})
+      .subscribe(x => {
+        console.log(x);
+        if (x.status === true) {
+          setTimeout(() => {
+            this.loadingDL = false;
+          }, 1000);
+          this.toastr.showSuccess('Data berhasil didapat', 'Berhasil');
+        } else {
+          this.toastr.showError('Data gagal Diolah', 'Gagal');
+        }
+      });
   }
 
 }

@@ -10,6 +10,7 @@ import {NotificationService} from '../../notification.service';
   styleUrls: ['./historyloan.component.css']
 })
 export class HistoryloanComponent implements OnInit {
+  loadingDL: boolean;
   MhsId: any;
   dataMhs: any;
   config: any;
@@ -97,5 +98,43 @@ export class HistoryloanComponent implements OnInit {
   }
   private onPageChange(event: any) {
     this.router.navigate(['/loans/history/' + this.MhsId ], {queryParams: {page: event.page}});
+  }
+
+  returnBlob(res): Blob {
+    return new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  }
+
+  private onDownload() {
+    this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/peminjaman/downloadriwayat', {responseType: 'blob'})
+      .subscribe(res => {
+        if (res) {
+          const url = window.URL.createObjectURL(this.returnBlob(res));
+          window.open(url);
+        }
+      });
+  }
+
+  openDownloadModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+    this.loadingDL = true;
+
+    this.http.post<any>(`http://localhost:6996/perpustakaan/api/v1/peminjaman/createlistriwayat`,
+      {id: this.MhsId, search: this.search, page: 1, size : this.config.totalItems})
+      .subscribe(x => {
+        console.log(x);
+        if (x.status === true) {
+          if (this.nodata === false) {
+            setTimeout(() => {
+              this.loadingDL = false;
+            }, 1000);
+            this.toastr.showSuccess('Data berhasil didapat', 'Berhasil');
+          } else {
+            this.modalRef.hide();
+            this.toastr.showError('Data Tidak bisa Diolah', 'Tidak ditemukan data');
+          }
+        } else {
+          this.toastr.showError('Data gagal Diolah', 'Gagal');
+        }
+      });
   }
 }
