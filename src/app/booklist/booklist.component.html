@@ -179,7 +179,7 @@
         </div>
         <div class="required four wide field" [class.error]="stok.invalid && stok.touched">
           <label>Stok</label>
-          <input required pattern="[0-9]*" #stok="ngModel" type="text" name="stok" placeholder="Stok" [(ngModel)]="inputBook.stok">
+          <input required pattern="[0-9]*" #stok="ngModel" type="number" name="stok" placeholder="Stok" [(ngModel)]="inputBook.stok">
         </div>
       </div>
 
@@ -268,7 +268,7 @@
         </div>
         <div class="required four wide field" [class.error]="stok.invalid && stok.touched">
           <label>Stok</label>
-          <input required pattern="[0-9]*" #stok="ngModel" type="text" name="stok" placeholder="Stok" [(ngModel)]="updateBook.stok">
+          <input required pattern="[0-9]*" #stok="ngModel" type="number" name="stok" placeholder="Stok" [(ngModel)]="updateBook.stok">
         </div>
       </div>
 

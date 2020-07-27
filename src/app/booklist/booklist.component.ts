@@ -168,7 +168,6 @@ export class BooklistComponent implements OnInit {
   private onUpdate(data: BookModel) {
     this.http.put<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_buku/update`,
       data).subscribe(x => {
-      console.log(x);
       this.modalRef.hide();
       if (x.status === true) {
         this.toastr.showSuccess(x.message, 'Berhasil');
