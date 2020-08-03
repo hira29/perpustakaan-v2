@@ -18,6 +18,8 @@ import { NotificationService} from '../notification.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = 'http://localhost:6996/';
   public loginObj = { password: '', username: ''};
   public showLoginForm = false;
   public loginSub: Subscription;
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
   }
   onLogin() {
     this.loginSub = this.http.post<any>(
-      `http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/login`
+      this.uri + 'perpustakaan/api/v1/usermanagement/login'
       , this.loginObj).subscribe(x => {
         const account = x.data;
 

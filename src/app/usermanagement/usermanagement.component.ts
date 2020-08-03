@@ -15,6 +15,8 @@ import {dataDecryption} from '../shared/security.helper';
   styleUrls: ['./usermanagement.component.css']
 })
 export class UsermanagementComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = this.uri + '';
   getRole: string;
   config: any;
   search: string;
@@ -59,16 +61,13 @@ export class UsermanagementComponent implements OnInit {
         totalItems: 0
       };
       this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
-      setTimeout(() => {
-        this.loading = false;
-      }, 200);
     } else {
       this.toastr.showWarning('Anda tidak memiliki akses untuk laman manajemen', 'Perhatian!');
       this.router.navigate(['/dashboard']);
     }
   }
   private loadPage(num) {
-    this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/list`,
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/usermanagement/list',
       {search: this.search, page: +num, size : 10}).subscribe(x => {
       this.pager = x.data;
       this.pageOfItems = x.data.records;
@@ -77,6 +76,7 @@ export class UsermanagementComponent implements OnInit {
         currentPage: x.data.page,
         totalItems: x.data.total_record
       };
+      this.loading = false;
     });
   }
   private onSearch(searchInput) {
@@ -105,7 +105,7 @@ export class UsermanagementComponent implements OnInit {
       this.inputUser.Phone === '') {
       this.toastr.showError('Data yang dibutuhkan Kosong!', 'Gagal');
     } else {
-      this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/create`,
+      this.http.post<any>(this.uri + 'perpustakaan/api/v1/usermanagement/create',
         data).subscribe(x => {
         this.modalRef.hide();
         if (x.status === true) {
@@ -124,7 +124,7 @@ export class UsermanagementComponent implements OnInit {
   }
 
   private onUpdate(data: UserModel) {
-    this.http.put<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/update`,
+    this.http.put<any>(this.uri + 'perpustakaan/api/v1/usermanagement/update',
       data).subscribe(x => {
       console.log(x);
       this.modalRef.hide();
@@ -142,7 +142,7 @@ export class UsermanagementComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   private onDelete(id: string) {
-    this.http.delete<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/usermanagement/delete/` + id)
+    this.http.delete<any>(this.uri + 'perpustakaan/api/v1/usermanagement/delete/' + id)
       .subscribe(x => {
         this.modalRef.hide();
         if (x.status === true) {

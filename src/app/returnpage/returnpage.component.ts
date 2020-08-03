@@ -10,6 +10,8 @@ import {NotificationService} from '../notification.service';
   styleUrls: ['./returnpage.component.css']
 })
 export class ReturnpageComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = this.uri + '';
   config: any;
   pager = {};
   pageOfItems = [];
@@ -36,13 +38,10 @@ export class ReturnpageComponent implements OnInit {
       totalItems: 0
     };
     this.route.queryParams.subscribe(x => this.getReturnApproval(x.page || 1));
-    setTimeout(() => {
-      this.loading = false;
-    }, 300);
   }
 
   getReturnApproval(num) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/pengembalian/adminlist',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/pengembalian/adminlist',
       {id: '', search: '', page: +num, size: 10})
       .subscribe(x => {
         if (x.data.records === null) {
@@ -56,6 +55,7 @@ export class ReturnpageComponent implements OnInit {
             totalItems: x.data.total_record
           };
         }
+        this.loading = false;
       });
   }
 
@@ -84,7 +84,7 @@ export class ReturnpageComponent implements OnInit {
   }
 
   onSubmitReturn(id: string) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/pengembalian/admin',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/pengembalian/admin',
       {id_peminjaman: id } )
       .subscribe(x => {
         this.modalRef.hide();

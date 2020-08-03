@@ -8,6 +8,8 @@ import {HttpClient} from '@angular/common/http';
 })
 export class DashboardComponent implements OnInit {
   public title = 'dashboard';
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = 'http://localhost:6996/';
   pageOfItemsPeminjaman: any;
   pageOfItemsPengembalian: any;
   countBook: any;
@@ -26,40 +28,38 @@ export class DashboardComponent implements OnInit {
     this.getBooksCount();
     this.getLoanCount();
     this.getRetunrCount();
-    setTimeout(() => {
-      this.loading = false;
-    }, 300);
   }
   getPeminjaman() {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/berlangsung',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/berlangsung',
       {page: 1, size: 5 })
       .subscribe(x => {
         this.pageOfItemsPeminjaman = x.data.records;
       });
   }
   getPengembalian() {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/riwayat',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/riwayat',
       {page: 1, size: 5 })
       .subscribe(x => {
         this.pageOfItemsPengembalian = x.data.records;
       });
   }
   getBooksCount() {
-    this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/summary/buku')
+    this.http.get<any>(this.uri + 'perpustakaan/api/v1/summary/buku')
       .subscribe(x => {
         this.countBook = x.data;
       });
   }
   getLoanCount() {
-    this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/summary/peminjaman')
+    this.http.get<any>(this.uri + 'perpustakaan/api/v1/summary/peminjaman')
       .subscribe(x => {
         this.countLoan = x.data;
       });
   }
   getRetunrCount() {
-    this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/summary/pengembalian')
+    this.http.get<any>(this.uri + 'perpustakaan/api/v1/summary/pengembalian')
       .subscribe(x => {
         this.countReturn = x.data;
+        this.loading = false;
       });
   }
 

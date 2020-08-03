@@ -11,6 +11,8 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
   styleUrls: ['./returnlandingpage.component.css']
 })
 export class ReturnlandingpageComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = this.uri + '';
   input = {idMhs: '', idBuku: '' };
   object = { mhs_id: '', buku_id: ''};
   modalRef: BsModalRef;
@@ -33,7 +35,7 @@ export class ReturnlandingpageComponent implements OnInit {
     }
   }
   onInput(template: TemplateRef<any>) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/pengembalian/get',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/pengembalian/get',
       {id_mhs: this.object.mhs_id, id_buku: this.object.buku_id })
       .subscribe(x => {
           this.infoReturn = x.data;
@@ -77,7 +79,7 @@ export class ReturnlandingpageComponent implements OnInit {
     }
   }
   onSubmitReturn(id: string) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/pengembalian/set',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/pengembalian/set',
       {id_peminjaman: id } )
       .subscribe(x => {
         this.modalRef.hide();

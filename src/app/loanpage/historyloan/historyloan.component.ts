@@ -10,6 +10,8 @@ import {NotificationService} from '../../notification.service';
   styleUrls: ['./historyloan.component.css']
 })
 export class HistoryloanComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = this.uri + '';
   loadingDL: boolean;
   MhsId: any;
   dataMhs: any;
@@ -41,19 +43,16 @@ export class HistoryloanComponent implements OnInit {
       totalItems: 0
     };
     this.route.queryParams.subscribe(x => this.getLoanInfo(x.page || 1));
-    setTimeout(() => {
-      this.loading = false;
-    }, 300);
   }
   getMhsInfo() {
-    this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/data_mhs/view/'
+    this.http.get<any>(this.uri + 'perpustakaan/api/v1/data_mhs/view/'
       + this.MhsId).subscribe( x => {
       this.dataMhs = x.data;
       console.log(x);
     });
   }
   getLoanInfo(num) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/riwayat',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/riwayat',
       {id: this.MhsId, search: this.search, page: +num, size: 10 })
       .subscribe(x => {
         if (x.data.total_record === 0) {
@@ -68,6 +67,7 @@ export class HistoryloanComponent implements OnInit {
             totalItems: x.data.total_record
           };
         }
+        this.loading = false;
       });
   }
   private onSearch(searchInput) {
@@ -105,7 +105,7 @@ export class HistoryloanComponent implements OnInit {
   }
 
   private onDownload() {
-    this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/peminjaman/downloadriwayat', {responseType: 'blob'})
+    this.http.get(this.uri + 'perpustakaan/api/v1/peminjaman/downloadriwayat', {responseType: 'blob'})
       .subscribe(res => {
         if (res) {
           const url = window.URL.createObjectURL(this.returnBlob(res));
@@ -118,7 +118,7 @@ export class HistoryloanComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
     this.loadingDL = true;
 
-    this.http.post<any>(`http://localhost:6996/perpustakaan/api/v1/peminjaman/createlistriwayat`,
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/createlistriwayat',
       {id: this.MhsId, search: this.search, page: 1, size : this.config.totalItems})
       .subscribe(x => {
         console.log(x);

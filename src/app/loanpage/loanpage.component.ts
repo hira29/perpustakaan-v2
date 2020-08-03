@@ -10,6 +10,8 @@ import {NotificationService} from '../notification.service';
   styleUrls: ['./loanpage.component.css']
 })
 export class LoanpageComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = this.uri + '';
   loadingDL: boolean;
   config: any;
   search: string;
@@ -40,12 +42,9 @@ export class LoanpageComponent implements OnInit {
       totalItems: 0
     };
     this.route.queryParams.subscribe(x => this.loadPage(x.page || 1));
-    setTimeout(() => {
-      this.loading = false;
-    }, 200);
   }
   private loadPage(num) {
-    this.http.post<any>(`http://127.0.0.1:6996/perpustakaan/api/v1/data_mhs/list`,
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/data_mhs/list',
       {search: this.search, page: +num, size : 10}).subscribe(x => {
         if (x.data.total_record === 0) {
           this.nodata = true;
@@ -59,6 +58,7 @@ export class LoanpageComponent implements OnInit {
             totalItems: x.data.total_record
           };
         }
+        this.loading = false;
     });
   }
   private onSearch(searchInput) {
@@ -77,7 +77,7 @@ export class LoanpageComponent implements OnInit {
       this.unhide = false;
       this.infoReturn = null;
     } else {
-      this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/view/' + id)
+      this.http.get<any>(this.uri + 'perpustakaan/api/v1/peminjaman/view/' + id)
         .subscribe(x => {
           if (x.status === true) {
             this.unhide = true;
@@ -109,7 +109,7 @@ export class LoanpageComponent implements OnInit {
     }
   }
   onSubmitReturn(id: string) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/kembali',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/kembali',
       {id_peminjaman: id } )
       .subscribe(x => {
         this.modalRef.hide();
@@ -132,7 +132,7 @@ export class LoanpageComponent implements OnInit {
   }
 
   private onDownload() {
-    this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/data_mhs/download', {responseType: 'blob'})
+    this.http.get(this.uri + 'perpustakaan/api/v1/data_mhs/download', {responseType: 'blob'})
       .subscribe(res => {
         if (res) {
           const url = window.URL.createObjectURL(this.returnBlob(res));
@@ -145,7 +145,7 @@ export class LoanpageComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
     this.loadingDL = true;
 
-    this.http.post<any>(`http://localhost:6996/perpustakaan/api/v1/data_mhs/createlistmhs`,
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/data_mhs/createlistmhs',
       {search: this.search, page: 1, size : this.config.totalItems})
       .subscribe(x => {
         console.log(x);

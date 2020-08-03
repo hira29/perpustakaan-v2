@@ -10,6 +10,8 @@ import {NotificationService} from '../../notification.service';
   styleUrls: ['./currentloan.component.css']
 })
 export class CurrentloanComponent implements OnInit {
+  uri = 'https://lib-ws-mdb.herokuapp.com/';
+  // uri = 'http://localhost:6996/';
   loadingDL: boolean;
   MhsId: any;
   dataMhs: any;
@@ -41,18 +43,15 @@ export class CurrentloanComponent implements OnInit {
     };
     this.route.queryParams.subscribe(x => this.getLoanInfo(x.page || 1));
     this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 300);
   }
   getMhsInfo() {
-    this.http.get<any>('http://localhost:6996/perpustakaan/api/v1/data_mhs/view/'
+    this.http.get<any>(this.uri + 'perpustakaan/api/v1/data_mhs/view/'
       + this.MhsId).subscribe( x => {
         this.dataMhs = x.data;
     });
   }
   getLoanInfo(num) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/berlangsung',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/berlangsung',
       {id: this.MhsId, search: this.search, page: +num, size: 10 })
       .subscribe(x => {
         if (x.data.total_record === 0) {
@@ -67,6 +66,7 @@ export class CurrentloanComponent implements OnInit {
             totalItems: x.data.total_record
           };
         }
+        this.loading = false;
       });
   }
   private onSearch(searchInput) {
@@ -96,7 +96,7 @@ export class CurrentloanComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
   onSubmitReturn(id: string) {
-    this.http.post<any>('http://localhost:6996/perpustakaan/api/v1/peminjaman/kembali',
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/kembali',
       {id_peminjaman: id } )
       .subscribe(x => {
         this.modalRef.hide();
@@ -116,7 +116,7 @@ export class CurrentloanComponent implements OnInit {
   }
 
   private onDownload() {
-    this.http.get('http://127.0.0.1:6996/perpustakaan/api/v1/peminjaman/downloadberlangsung', {responseType: 'blob'})
+    this.http.get(this.uri + 'perpustakaan/api/v1/peminjaman/downloadberlangsung', {responseType: 'blob'})
       .subscribe(res => {
         if (res) {
           const url = window.URL.createObjectURL(this.returnBlob(res));
@@ -129,7 +129,7 @@ export class CurrentloanComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
     this.loadingDL = true;
 
-    this.http.post<any>(`http://localhost:6996/perpustakaan/api/v1/peminjaman/createlistberlangsung`,
+    this.http.post<any>(this.uri + 'perpustakaan/api/v1/peminjaman/createlistberlangsung',
       {id: this.MhsId, search: this.search, page: 1, size : this.config.totalItems})
       .subscribe(x => {
         console.log(x);
