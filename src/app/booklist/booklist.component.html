@@ -95,6 +95,8 @@
           <div style="display: block">
             <a (click)="onView(item.buku_id, update)"><i class="edit outline icon"></i></a>
             <a></a>
+            <a (click)="onModalBarcode(item.buku_id, item.judul, BarcodeTemplate)"><i class="barcode icon"></i></a>
+            <a></a>
             <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
           </div>
         </td>
@@ -195,7 +197,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button class="ui button" type="submit" (click)="onSubmit(inputBook)">Submit</button>
+    <button class="ui button" type="submit" (click)="onSubmit(inputBook, BarcodeTemplate)">Submit</button>
   </div>
 </ng-template>
 
@@ -352,3 +354,34 @@
     </button>
   </div>
 </ng-template>
+
+<ng-template #BarcodeTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Barcode</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="ui segment" style="padding: 10px 0 0 0 ">
+      <p style="text-align: center; font-size: 20px; font-weight: bold">{{this.barcodeTitle}}</p>
+      <div style="text-align: center; padding: 10px">
+        <ngx-barcode id="barcodesvg" [bc-value]="barcode"
+                     [bc-display-value]="true"
+                     [bc-format]="'CODE128'"
+                     [bc-element-type]="'svg'">
+        </ngx-barcode>
+      </div>
+      <div style="text-align: center; padding: 10px">
+        <button class="btn btn-icon btn-new-menu"
+                style="color: #fff; background-color: #107c41;
+                box-shadow: 0 0 0 0 rgba(34,36,38,.15)"
+                (click)="onDownloadBarcode()">
+          <i class="download icon"></i>
+          Unduh
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

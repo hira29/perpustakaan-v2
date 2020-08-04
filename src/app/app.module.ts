@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
 // import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxBarcodeModule } from 'ngx-barcode';
+
 import { PaginationModule} from 'ngx-bootstrap/pagination';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { LoginComponent } from './login/login.component';
@@ -60,7 +62,8 @@ import { ReturnlandingpageComponent } from './returnlandingpage/returnlandingpag
         // NgxPaginationModule
         PaginationModule.forRoot(),
         TooltipModule.forRoot(),
-        NgSelectModule
+        NgSelectModule,
+        NgxBarcodeModule
     ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

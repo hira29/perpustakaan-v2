@@ -6,6 +6,7 @@ import { BookModel} from './bookmodel';
 import { NotificationService} from '../notification.service';
 import { NgOption } from '@ng-select/ng-select';
 import {Observable} from "rxjs";
+import * as svg from 'save-svg-as-png';
 
 
 @Component({
@@ -33,6 +34,8 @@ export class BooklistComponent implements OnInit {
   updateBook = new BookModel('', '', '', '', '', '', '', '', '', '', '', '', 0, '');
   loading = true;
   nodata = false;
+  barcode: string;
+  barcodeTitle: string;
 
   modalRef: BsModalRef;
   constructor(
@@ -97,6 +100,7 @@ export class BooklistComponent implements OnInit {
     this.deleteID = id;
     this.modalRef = this.modalService.show(template);
   }
+
   private onDelete(id: string) {
     this.http.delete<any>(this.uri + 'perpustakaan/api/v1/data_buku/delete/' + id)
       .subscribe(x => {
@@ -137,7 +141,7 @@ export class BooklistComponent implements OnInit {
         this.loading = false;
     });
   }
-  private onSubmit(data: BookModel) {
+  private onSubmit(data: BookModel, template: TemplateRef<any>) {
     if (this.inputBook.judul === '' &&
         this.inputBook.edisi === '' &&
         this.inputBook.penerbit === '' &&
@@ -161,7 +165,9 @@ export class BooklistComponent implements OnInit {
         } else {
           this.toastr.showError(x.message, 'Gagal');
         }
+        console.log(x);
         this.ngOnInit();
+        this.onModalBarcode(x.data.buku_id, x.data.judul, template);
       });
     }
   }
@@ -237,5 +243,35 @@ export class BooklistComponent implements OnInit {
           this.toastr.showError('Data gagal Diolah', 'Gagal');
         }
       });
+  }
+  setBlobBarcode(base64Data: string, sliceSize= 512) {
+    const split = base64Data.split(',', 2);
+    const byteCharacters = atob(split[1]);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+    return new Blob(byteArrays, {type: 'image/png'});
+  }
+  private onDownloadBarcode() {
+    svg.svgAsPngUri(document.getElementsByTagName('svg')[0], {}, (uri) => {
+      const url = window.URL.createObjectURL(this.setBlobBarcode(uri));
+      window.open(url);
+    });
+  }
+  private onModalBarcode(id: string, judul: string, template: TemplateRef<any>) {
+    this.barcode = id;
+    this.barcodeTitle = judul;
+    this.modalRef = this.modalService.show(template);
   }
 }
