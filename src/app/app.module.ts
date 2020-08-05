@@ -31,6 +31,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReturnpageComponent } from './returnpage/returnpage.component';
 import { ReturnlandingpageComponent } from './returnlandingpage/returnlandingpage.component';
+import { RatingComponent } from './booklist/rating/rating.component';
 
 
 
@@ -47,7 +48,8 @@ import { ReturnlandingpageComponent } from './returnlandingpage/returnlandingpag
     HistoryloanComponent,
     UsermanagementComponent,
     ReturnpageComponent,
-    ReturnlandingpageComponent
+    ReturnlandingpageComponent,
+    RatingComponent
   ],
     imports: [
         BrowserModule,

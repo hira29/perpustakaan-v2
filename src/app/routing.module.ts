@@ -12,6 +12,7 @@ import {HistoryloanComponent} from './loanpage/historyloan/historyloan.component
 import {UsermanagementComponent} from './usermanagement/usermanagement.component';
 import {ReturnpageComponent} from './returnpage/returnpage.component';
 import {ReturnlandingpageComponent} from './returnlandingpage/returnlandingpage.component';
+import {RatingComponent} from './booklist/rating/rating.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -25,7 +26,8 @@ const routes: Routes = [
   { path: 'usermanagement', component: UsermanagementComponent, canActivate: [AuthGuard]},
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
   { path: 'return_approval', component: ReturnpageComponent, canActivate: [AuthGuard]},
-  { path: 'home', component: ReturnlandingpageComponent}
+  { path: 'home', component: ReturnlandingpageComponent},
+  { path: 'books/rating/:id', component: RatingComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

@@ -19,12 +19,13 @@ export class HistoryloanComponent implements OnInit {
   search: string;
   pager = {};
   pageOfItems = [];
+  loading = true;
+  nodata = false;
   modalRef: BsModalRef;
   infoReturn: any;
   infoTime: string;
   lateTime: boolean;
-  loading = true;
-  nodata = false;
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,

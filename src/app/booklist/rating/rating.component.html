@@ -1,0 +1,135 @@
+<div id="navbar" class="header-container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 left-navbar">
+      <h2>Komentar dan Rating</h2>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 right-navbar">
+      <button class="btn btn-icon btn-new-menu" style="color: #fff;margin-right: 20px; background-color: #107c41; box-shadow: 0 0 0 0 rgba(34,36,38,.15)"
+              (click)="openDownloadModal(DownloadTemplate)">
+        <i class="download icon"></i>
+        Unduh Excel
+      </button>
+      <button class="btn btn-primary btn-icon btn-new-menu" routerLink="/books">
+        <i class="arrow alternate circle left outline icon"></i>
+        Kembali
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading;else loads" class="ui segment" style="padding: 200px 0 0 0 ">
+  <div class="ui active inverted dimmer">
+    <div class="ui large text loader">Loading</div>
+  </div>
+</div>
+
+<ng-template #loads>
+
+  <div class="mt-3 pb-0" style="width: 100%">
+    <div class="row align-self-center" style="margin-top: 10px; z-index: 98;">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <table class="ui definition table">
+          <tbody>
+          <tr>
+            <td class="two wide column">Judul Buku</td>
+            <td>{{BookInfo.judul}}</td>
+          </tr>
+          <tr>
+            <td>Pengarang</td>
+            <td>{{BookInfo.pengarang}}</td>
+          </tr>
+          <tr>
+            <td>Penerbit / Tahun</td>
+            <td>{{BookInfo.penerbit}} / {{BookInfo.tahun_terbit}}</td>
+          </tr>
+          <tr>
+            <td>Rating</td>
+            <td>{{BookInfo.rating}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row align-self-center" style="margin-top: 10px">
+
+    </div>
+  </div>
+
+  <div *ngIf="nodata; else theredata" class="card" style="margin-top: 10px; padding: 10px">
+    <div style="text-align:center ;">
+      <p class="ml-2" style="font-size: 18px; padding: 2rem;">Pencarian tidak ditemukan!</p>
+    </div>
+  </div>
+
+  <ng-template #theredata>
+    <table class="ui celled padded table">
+      <thead>
+      <tr><th class="single line">ID Rating</th>
+        <th>Nama Mahasiswa</th>
+        <th>ID Mahasiswa</th>
+        <th>Rating</th>
+        <th>Komentar</th>
+        <th>Tanggal</th>
+        <th>Hapus</th>
+      </tr></thead>
+      <tbody>
+      <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
+      <tr *ngFor="let item of pageOfItems">
+        <td>{{item.id_rating}}</td>
+        <td>{{item.nama}}</td>
+        <td>{{item.id_mhs}}</td>
+        <td>{{item.rating}}</td>
+        <td>{{item.komentar}}</td>
+        <td>{{item.tanggal | date:'d MMMM y HH:mm':'UTC'}}</td>
+
+        <td>
+          <div class="ui icon button" (click)="onModalDelete(item.id_rating, delete)">
+            <i class="trash alternate outline icon"></i>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr><th colspan="9">
+        <pagination previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;" [boundaryLinks]="true"
+                    [totalItems]="config.totalItems" [itemsPerPage]="config.itemsPerPage" [(ngModel)]="config.currentPage" (pageChanged)="onPageChange($event)"></pagination>
+      </th></tr>
+      </tfoot>
+    </table>
+  </ng-template>
+</ng-template>
+
+<ng-template #delete>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="onDelete(deleteID)" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="onNotDelete()" >No</button>
+  </div>
+</ng-template>
+
+
+<ng-template #DownloadTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Download Tabel</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="loadingDL;else loadsDL" class="ui segment" style="padding: 200px 0 0 0 ">
+      <div class="ui active inverted dimmer">
+        <div class="ui large text loader">Memproses tabel</div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loadsDL>
+  <div style="text-align: center; padding: 10px">
+    <button class="btn btn-icon btn-new-menu" style="color: #fff;margin-right: 20px; background-color: #107c41; box-shadow: 0 0 0 0 rgba(34,36,38,.15)"
+            (click)="onDownload()">
+      <i class="download icon"></i>
+      Unduh
+    </button>
+  </div>
+</ng-template>

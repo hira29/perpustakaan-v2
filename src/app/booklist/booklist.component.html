@@ -64,7 +64,7 @@
   <ng-template #theredata>
     <table class="ui celled padded table">
       <thead>
-      <tr><th class="single line">ID Buku</th>
+      <tr><th class="single line">Buku</th>
         <th>Judul</th>
         <th>Pengarang</th>
         <th>Penerbit</th>
@@ -80,7 +80,7 @@
       <tbody>
       <!--  <tr *ngFor="let item of pageOfItems | paginate: config">-->
       <tr *ngFor="let item of pageOfItems">
-        <td style="text-align: center; margin: 0 auto"><img src="{{item.gambar}}" style="height: 100px"><div>{{item.buku_id}}</div></td>
+        <td style="text-align: center; margin: 0 auto"><img src="{{item.gambar}}" style="height: 100px"><div>{{item.buku_id}}</div><div> Rating : {{item.rating}}</div></td>
         <td>{{item.judul}}</td>
         <td>{{item.pengarang}}</td>
         <td>{{item.penerbit}}</td>
@@ -98,6 +98,8 @@
             <a (click)="onModalBarcode(item.buku_id, item.judul, BarcodeTemplate)"><i class="barcode icon"></i></a>
             <a></a>
             <a (click)="onModalDelete(item.buku_id, delete)"><i class="trash alternate outline icon"></i></a>
+            <a></a>
+            <a routerLink="/books/rating/{{item.buku_id}}"><i class="star outline icon"></i></a>
           </div>
         </td>
       </tr>
